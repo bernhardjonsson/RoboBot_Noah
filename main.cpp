@@ -135,13 +135,14 @@ int main(int argc, char **argv)
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
     //
-    step1();
-    step2();
+    //step1();
+    //step2();
+    vision.processImage(10)
     //
     std::cout << "# Robobot mission finished ...\n";
     // remember to close camera
     vision.stop();
-    sound.say("I am finished... sorry danish.", 0.2);
+    //sound.say("I am finished... sorry danish.", 0.2);
     while (sound.isSaying())
       sleep(1);
     bridge.tx("regbot mute 1\n");
