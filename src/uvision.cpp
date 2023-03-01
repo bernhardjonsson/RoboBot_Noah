@@ -264,6 +264,11 @@ bool UVision::doFindBall()
       pOra++; // increase to next destination pixel
     }
   }
+
+  cv::Mat yuvThresh;
+
+  cv::inRange(yuv,cv::Scalar(250,119,131), cv::Scalar(190,96,173), yuvThresh);
+  cv::imwrite("threshYUV.png",yuvThresh);
   //
 //   // threshold to BW image
 //   if (false)
