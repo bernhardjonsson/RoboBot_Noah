@@ -248,7 +248,8 @@ bool UVision::doFindBall()
   printf("# YUV saved, size width=%d height=%d\n", w, h);
   //
   // color for filter
-  cv::Vec3b yuvOrange = cv::Vec3b(128,88,187);
+  //cv::Vec3b yuvOrange = cv::Vec3b(128,88,187);
+  cv::Vec3b yuvOrange = cv::Vec3b(227,110,147);
   cv::Mat gray1(h,w, CV_8UC1);
   // test all pixels
   for (int r = 0; r < h; r++)
@@ -282,7 +283,7 @@ bool UVision::doFindBall()
   //
   // do static threshold at value 230, max is 255 and mode is 3 (zero all pixels below threshold) 
   cv::Mat gray2;
-  cv::threshold(gray1, gray2, 230, 255, 3);
+  cv::threshold(gray1, gray2, 240, 255, 3);
   //
   // remove small items with a erode/delate
   // last parameter is iterations, and could be increased
@@ -300,7 +301,6 @@ bool UVision::doFindBall()
           const int MSL = 100;
           char s[MSL];
           snprintf(s, MSL, "threshold.png");
-          t3.now();
           cv::imwrite(s, gray2);
           printf("Image save for threshold\n");
           snprintf(s, MSL, "eroded.png");
@@ -448,4 +448,4 @@ bool UVision::doFindAruco()
 { // image is in 'frame'
   printf("# not implemented\n");
   return false;
-}
+} 
