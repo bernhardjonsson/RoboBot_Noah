@@ -299,14 +299,13 @@ bool UVision::doFindBall()
         { // save the image - with a number
           const int MSL = 100;
           char s[MSL];
-          snprintf(s, MSL, "threshold_%03d.png", n);
+          snprintf(s, MSL, "threshold.png");
           t3.now();
           cv::imwrite(s, gray2);
-          printf("Image save took %.3f sec\n", t3.getTimePassed());
-          snprintf(s, MSL, "eroded_%03d.png", n);
-          t3.now();
+          printf("Image save for threshold\n");
+          snprintf(s, MSL, "eroded.png");
           cv::imwrite(s, gray4);
-          printf("Image save took %.3f sec\n", t3.getTimePassed());
+          printf("Image save for eroded\n");
         }
   //
   // find contours for further validation
