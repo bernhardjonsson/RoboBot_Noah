@@ -295,6 +295,19 @@ bool UVision::doFindBall()
     cv::imshow("Eroded/dilated image", gray4);
     cv::waitKey(1000); // 1 second
   }
+  if (saveImage)
+        { // save the image - with a number
+          const int MSL = 100;
+          char s[MSL];
+          snprintf(s, MSL, "threshold_%03d.png", n);
+          t3.now();
+          cv::imwrite(s, gray2);
+          printf("Image save took %.3f sec\n", t3.getTimePassed());
+          snprintf(s, MSL, "eroded_%03d.png", n);
+          t3.now();
+          cv::imwrite(s, gray4);
+          printf("Image save took %.3f sec\n", t3.getTimePassed());
+        }
   //
   // find contours for further validation
   vector<vector<cv::Point> > contours;
