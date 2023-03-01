@@ -137,7 +137,7 @@ int main(int argc, char **argv)
     //
     //step1();
     //step2();
-    vision.processImage(10)
+    vision.processImage(10);
     //
     std::cout << "# Robobot mission finished ...\n";
     // remember to close camera
