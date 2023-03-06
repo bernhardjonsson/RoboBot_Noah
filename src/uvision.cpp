@@ -235,10 +235,19 @@ int UVision::uvDistance(cv::Vec3b pix, cv::Vec3b col)
   return d;
 }
 
+cv::Mat UVision::hsv_colormask()
+{  // masking function using the hsv colorspace
+  cv::Mat hsv;
+  cv::Mat mask;
+  cv::cvtColor(frame, hsv, cv:COLOR_BGR2HSV);
+  cv::Scalar low_val = cv::Scalar(5,50,20);
+  cv::Scalar high_val = cv::Scalar(15,255,255);
+  cv::inRange(frame,low_val,high_val,mask);
+  return mask;
+}
 
-bool UVision::doFindBall()
-{ // process pipeline to find
-  // bounding boxes of balls with matched colour
+cv::Mat UVision::yuv_colormask();
+{
   cv::Mat yuv;
   cv::imwrite("rgb_balls_01.png", frame);
   cv::cvtColor(frame, yuv, cv::COLOR_BGR2YUV);
@@ -265,30 +274,20 @@ bool UVision::doFindBall()
     }
   }
 
-  cv::Mat yuvThresh;
 
-  cv::inRange(yuv,cv::Scalar(250,119,131), cv::Scalar(190,96,173), yuvThresh);
-  cv::imwrite("threshYUV.png",yuvThresh);
-  //
-//   // threshold to BW image
-//   if (false)
-//   { // for determine a good detect threshold for the colour enhanced images
-//     source = gray1;
-//     dest.create(h,w, CV_8UC1);
-//     windowName = "process, find detect threshold";
-//     cv::namedWindow( windowName, cv::WINDOW_AUTOSIZE );
-//     slider1 = 230;
-//     cv::createTrackbar( "Threshold:", windowName, &slider1, 255, thresholdGrayDetermine);
-//     thresholdGrayDetermine(0, nullptr);
-//     cv::waitKey(0); // wait 
-//     printf("# Orange threshold ended at %d\n", slider1);
-//     // this is bor interactive use, so stop here
-//     return true;
-//   }
   //
   // do static threshold at value 230, max is 255 and mode is 3 (zero all pixels below threshold) 
   cv::Mat gray2;
   cv::threshold(gray1, gray2, 240, 255, 3);
+  return gray2;
+
+}
+
+bool UVision::doFindBall()
+{ // process pipeline to find
+  // bounding boxes of balls with matched colour
+  //gray2 = yuv_colormask();
+  gray2 = hsv_colormask();
   //
   // remove small items with a erode/delate
   // last parameter is iterations, and could be increased

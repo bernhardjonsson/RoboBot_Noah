@@ -121,6 +121,9 @@ private:
    * distance 0 is total match, else block distance for U and V only
    * \returns d = |du| + |dv| */
   int uvDistance(cv::Vec3b pix, cv::Vec3b col);
+
+  cv::Mat hsv_colormask();
+  cv::Mat yuv_colormask();
   
 };
 
