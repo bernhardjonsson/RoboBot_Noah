@@ -23,6 +23,8 @@
 
 #include <iostream>
 #include<cmath>
+#include <string>
+
 #include "src/ubridge.h"
 #include "src/uvision.h"
 #include "src/upose.h"
@@ -101,7 +103,13 @@ void golf(){
 		angle = atan2(vision.ball_y, vision.ball_x);
 		angle = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
-		printf("distance: %.3f meters, angle: %.3f degrees", dist, angle);
+		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
+		
+		string cmdHead = "regbot madd tr=0:turn=" + to_string(angle);
+		string cmdDist = "regbot madd vel=" + to_string(0.1) + ",acc=" + to_string(0.5) + ":dist=" + to_string(dist);
+		bridge.tx(cmdHead);
+		bridge.tx(cmdDist);
+		bridge.tx("regbot start\n");
 	}
 	
 }
