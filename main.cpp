@@ -101,7 +101,7 @@ void golf(){
 	if(vision.ball_found == true){
 		bridge.tx("regbot mclear\n");
 		angle = atan2(vision.ball_y, vision.ball_x);
-		angle = -angle*180.0/3.1415;
+		angle = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
 		
