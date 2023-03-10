@@ -22,6 +22,7 @@
 
 
 #include <iostream>
+#include<cmath>
 #include "src/ubridge.h"
 #include "src/uvision.h"
 #include "src/upose.h"
@@ -91,6 +92,20 @@ void step1()
 //   sound.say(". Step one finished.");
 }
 
+void golf(){
+	float angle;
+	float dist;
+	vision.processImage(20);
+	if(vision.found_ball == true){
+		bridge.tx("regbot mclear\n");
+		angle = atan2(vision.ball_y, vision.ball_x);
+		angle = angle*180.0/3.1415;
+		dist = sqrt(pow(ball_x,2) + pow(ball_y,2));
+		printf("distance: %.3f meters, angle: %.3f degrees", dist, angle);
+	}
+	
+}
+
 void step2()
 {
 //   sound.say(". Step two. Press button two for right, button three for left", 0.3);
@@ -139,7 +154,7 @@ int main(int argc, char **argv)
     //
     //step1();
     //step2();
-    vision.processImage(120);
+    golf();
     //
     std::cout << "# Robobot mission finished ...\n";
     // remember to close camera

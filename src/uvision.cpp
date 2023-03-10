@@ -172,6 +172,7 @@ bool UVision::getNewestFrame()
 
 bool UVision::processImage(float seconds)
 { // process images in 'seconds' seconds
+  ball_found = false;
   UTime t, t2, t3, t4; // for timing
   t.now();
   int n = 0;
@@ -441,11 +442,17 @@ void UVision::ballProjectionAndTest()
       cv::Mat1f pos3drob = camToRobot * pos3dcam;
       printf("# ball %d position in robot coordinates (x,y,z)=(%.2f, %.2f, %.2f)\n", i, 
              pos3drob.at<float>(0), pos3drob.at<float>(1), pos3drob.at<float>(2));
+	  ball_found = true;
+	  ball_x = pos3drob.at<float>(0);
+      ball_y =  pos3drob.at<float>(1);
+	  ball_z =  pos3drob.at<float>(2);
       //
       if (showImage)
       { // put coordinates in debug image
         const int MSL = 100;
         char s[MSL];
+		
+		
         snprintf(s, MSL, "Ball %d at x=%.2f, y=%.2f, z=%.2f\n", i, pos3drob.at<float>(0), pos3drob.at<float>(1), pos3drob.at<float>(2));
         cv::putText(debugImg, s, cv::Point(bbCenter[0], bbCenter[1]), cv::FONT_HERSHEY_SIMPLEX, 0.4, cv::Scalar(0, 0, 156));
         //

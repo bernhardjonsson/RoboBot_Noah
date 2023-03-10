@@ -75,6 +75,10 @@ public:
   cv::Mat source;
   int slider1;
   int slider2;
+  float ball_x;
+  float ball_y;
+  float ball_z;
+  bool ball_found = false;
   /**
    * focal length for Sandberg camera in pixels */
   const int focalLength = 1008;
