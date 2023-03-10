@@ -67,6 +67,8 @@ public:
   bool terminate = false;
   /// show image to X-terminal
   bool showImage = false;
+  // use yolo for ball detection
+  bool useYolo = false;
   /**
     * images for manual function using slider */
   cv::Mat dest;
@@ -79,8 +81,8 @@ public:
   const float golfBallDiameter = 0.043; // meter
   /**
    * camera position in robot coordinates (x (forward), y (left), z (up)) */
-  const float camPos[3] = {0.13,-0.02, 0.23};       // in meters
-  const float camTilt = 22 * M_PI / 180; // in radians
+  const float camPos[3] = {0.11,-0.01, 0.23};       // in meters
+  const float camTilt = 17 * M_PI / 180; // in radians
   cv::Mat1f camToRobot;
 //   const float st = sin(camTilt);
 //   const float ct = cos(camTilt);
@@ -121,6 +123,9 @@ private:
    * distance 0 is total match, else block distance for U and V only
    * \returns d = |du| + |dv| */
   int uvDistance(cv::Vec3b pix, cv::Vec3b col);
+
+  cv::Mat hsv_colormask();
+  cv::Mat yuv_colormask();
   
 };
 
