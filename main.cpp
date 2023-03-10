@@ -33,6 +33,7 @@
 #include "src/uplay.h"
 #include "src/uevent.h"
 #include "src/ujoy.h"
+#include "src/PointToPoint.h"
 
 // to avoid writing std:: 
 using namespace std;
@@ -105,8 +106,17 @@ void golf(){
 		angle = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
+		Upose startpose;
+		startpose.x = 0;
+		startpose.y = 0;
+		startpose.h = 0;
 		
-		string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
+		Upose endpose;
+		endpose.x = vision.ball_x;
+		endpose.y = vision.ball_y;
+		endpose.h = 0;
+		PointToPoint::goToPoint(&startpose, &endpose, 0.1, 0.5);
+		/*string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
 		const char *head_char = cmdHead.c_str();
 				
 		string cmdDist = "regbot madd vel=0.1,acc=0.5:dist=" + to_string(dist) + "\n";
@@ -118,7 +128,7 @@ void golf(){
 		bridge.tx(head_char);
 		bridge.tx(dist_char);
 		bridge.tx("regbot start\n");
-		//event.waitForEvent(0);
+		//event.waitForEvent(0);*/
 	}
 	
 }
