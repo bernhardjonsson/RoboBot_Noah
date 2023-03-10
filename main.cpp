@@ -96,7 +96,7 @@ void golf(){
 	float angle;
 	float dist;
 	vision.processImage(20);
-	if(vision.found_ball == true){
+	if(vision.ball_found == true){
 		bridge.tx("regbot mclear\n");
 		angle = atan2(vision.ball_y, vision.ball_x);
 		angle = angle*180.0/3.1415;
