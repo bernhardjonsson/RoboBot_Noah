@@ -105,9 +105,22 @@ void golf(){
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
 		
-		bridge.tx("regbot madd tr=0:turn=" + to_string(angle));
-		bridge.tx("regbot madd vel=" + to_string(0.1) + ",acc=" + to_string(0.5) + ":dist=" + to_string(dist));
-		bridge.tx("regbot start\n");
+		char cmdHead[100] = "regbot madd tr=0:turn=";
+		char str_ang[10] = to_string(angle);
+		strcat(cmdHead, str_ang);
+		
+		char cmdDist[100] = "regbot madd vel=0.1,acc=0.5:dist="
+		char str_dist[10] = to_string(dist);
+		strcat(cmdDist, str_dist);
+		
+		printf(cmdHead);
+		printf("\n");
+		printf(cmdDist);
+		printf("\n");
+		
+		//bridge.tx(cmdHead);
+		//bridge.tx(cmdDist);
+		//bridge.tx("regbot start\n");
 	}
 	
 }
