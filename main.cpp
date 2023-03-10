@@ -107,11 +107,11 @@ void golf(){
 		
 		char cmdHead[100] = "regbot madd tr=0:turn=";
 		//string str_ang = to_string(angle);
-		strcat(cmdHead, (char)str_ang);
+		strcat(cmdHead, (char)angle);
 		
 		char cmdDist[100] = "regbot madd vel=0.1,acc=0.5:dist=";
 		//string str_dist = to_string(dist);
-		strcat(cmdDist, (char)str_dist);
+		strcat(cmdDist, (char)dist);
 		
 		printf(cmdHead);
 		printf("\n");
