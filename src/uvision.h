@@ -87,7 +87,7 @@ public:
   /**
    * camera position in robot coordinates (x (forward), y (left), z (up)) */
   const float camPos[3] = {0.11,-0.01, 0.23};       // in meters
-  const float camTilt = 17 * M_PI / 180; // in radians
+  const float camTilt = 14 * M_PI / 180; // in radians
   cv::Mat1f camToRobot;
 //   const float st = sin(camTilt);
 //   const float ct = cos(camTilt);
