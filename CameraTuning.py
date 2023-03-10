@@ -41,9 +41,7 @@ def hsv_colormask(frame):
 
 if __name__ == "__main__":
 	
-
-	vid = cv.VideoCapture(1)
-
+    vid = cv.VideoCapture(0)
 	while(True):
 		ret, img = vid.read()
 		img_th = hsv_colormask(img)

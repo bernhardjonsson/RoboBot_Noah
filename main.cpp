@@ -60,12 +60,14 @@ bool setup(int argc, char **argv)
     printf("# Setup finished OK\n");
   }
   else
+	{
     printf("# Setup failed\n");
-  sound.say("me?... I am a depressed robot.", 0.1);
-//   while (sound.isSaying())
+ 		sound.say("me?... I am a depressed robot.", 0.1);
+	}
+		//   while (sound.isSaying())
 //     usleep(100000);
   // a bit of background music
-  sound.play("/home/local/Music/music.mp3", 0.05);
+  //sound.play("/home/local/Music/music.mp3", 0.05);
   return true;
 }
 
@@ -137,7 +139,7 @@ int main(int argc, char **argv)
     //
     //step1();
     //step2();
-    vision.processImage(10);
+    vision.processImage(120);
     //
     std::cout << "# Robobot mission finished ...\n";
     // remember to close camera

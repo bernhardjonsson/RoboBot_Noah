@@ -40,6 +40,7 @@ void UVision::setup(int argc, char **argv)
   // open the default camera using default API
   // and select any API backend
   int dev = 0;
+  //printf("Setting up vision\n");
   //
   // decode any debug parameters
   // command line parameters
@@ -50,6 +51,8 @@ void UVision::setup(int argc, char **argv)
       saveImage = true;
     if (strcmp(argv[i], "ball") == 0)
       findBall = true;
+    if (strcmp(argv[i], "yolo") == 0)
+      useYolo = true;
     if (strcmp(argv[i], "aruco") == 0)
       findAruco = true;
     if (strcmp(argv[i], "show") == 0)
@@ -174,7 +177,8 @@ bool UVision::processImage(float seconds)
   int n = 0;
   int frameCnt = 0;
   float frameSampleTime = 1.5; // seconds
-  while (t.getTimePassed() < seconds and camIsOpen and not terminate and n < 5)
+  printf("seconds used: %.3f\n",seconds);
+  while (t.getTimePassed() < seconds and camIsOpen and not terminate  and n < 7) // and not terminate
   { // skip the first 20 frames to allow auto-illumination to work
     if (t4.getTimePassed() > frameSampleTime and frameSerial > 20)
     { // do every 1.5 second (or sample time)
@@ -189,7 +193,7 @@ bool UVision::processImage(float seconds)
           t3.now();
           cv::imshow("raw image", frame);
           printf("Image show call took %.3f sec\n", t3.getTimePassed());
-          cv::waitKey(300);
+          cv::waitKey(7000);
         }
         if (saveImage)
         { // save the image - with a number
@@ -202,9 +206,14 @@ bool UVision::processImage(float seconds)
         }
         if (findBall and n > 2)
         {
+          if(useYolo == true){
+	  	cv::imwrite("raw.png", frame);
+          	system("python yolo.py");
+	  }
           t3.now();
           ballBoundingBox.clear();
           terminate = doFindBall();
+					terminate = false; // for longer debuging
           printf("Find ball took %.3f sec\n", t3.getTimePassed());
           if (ballBoundingBox.size() >= 1)
           { // test if the ball is on the floor
@@ -239,14 +248,14 @@ cv::Mat UVision::hsv_colormask()
 {  // masking function using the hsv colorspace
   cv::Mat hsv;
   cv::Mat mask;
-  cv::cvtColor(frame, hsv, cv:COLOR_BGR2HSV);
-  cv::Scalar low_val = cv::Scalar(5,50,20);
-  cv::Scalar high_val = cv::Scalar(15,255,255);
+  cv::cvtColor(frame, hsv, cv::COLOR_BGR2HSV);
+  cv::Scalar low_val = cv::Scalar(2,20,20);
+  cv::Scalar high_val = cv::Scalar(100,255,255);
   cv::inRange(frame,low_val,high_val,mask);
   return mask;
 }
 
-cv::Mat UVision::yuv_colormask();
+cv::Mat UVision::yuv_colormask()
 {
   cv::Mat yuv;
   cv::imwrite("rgb_balls_01.png", frame);
@@ -286,7 +295,8 @@ cv::Mat UVision::yuv_colormask();
 bool UVision::doFindBall()
 { // process pipeline to find
   // bounding boxes of balls with matched colour
-  //gray2 = yuv_colormask();
+	cv::Mat gray2;
+	//gray2 = yuv_colormask();
   gray2 = hsv_colormask();
   //
   // remove small items with a erode/delate
@@ -294,11 +304,17 @@ bool UVision::doFindBall()
   cv::Mat gray3, gray4;
   cv::erode(gray2, gray3, cv::Mat(), cv::Point(-1,-1), 1);
   cv::dilate(gray3, gray4, cv::Mat(), cv::Point(-1,-1), 1);
+  
+  if(useYolo==true){
+  	frame = cv::imread("black.png");
+  	cv::cvtColor(frame, gray4, cv::COLOR_BGR2GRAY);
+  }
+  
   if (showImage)
   { // show eroded/dilated image
     cv::imshow("Thresholede image", gray2);
     cv::imshow("Eroded/dilated image", gray4);
-    cv::waitKey(1000); // 1 second
+    cv::waitKey(7000); // 2 second
   }
   if (saveImage)
         { // save the image - with a number
@@ -326,7 +342,7 @@ bool UVision::doFindBall()
       cv::drawContours( col4, contours, (int)i, color, 2, cv::LINE_8, hierarchy, 0 );
     }
     imshow( "Contours", col4);
-    cv::waitKey(1000);
+    cv::waitKey(7000);
   }
   // Test for valid contours
   if (showImage)
