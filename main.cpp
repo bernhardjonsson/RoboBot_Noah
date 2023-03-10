@@ -100,6 +100,7 @@ void golf(){
 	vision.processImage(20);
 	if(vision.ball_found == true){
 		bridge.tx("regbot mclear\n");
+		event.clearEvents();
 		angle = atan2(vision.ball_y, vision.ball_x);
 		angle = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
@@ -117,6 +118,7 @@ void golf(){
 		bridge.tx(head_char);
 		bridge.tx(dist_char);
 		bridge.tx("regbot start\n");
+		//event.waitForEvent(0);
 	}
 	
 }
