@@ -81,8 +81,8 @@ public:
   bool ball_found = false;
   /**
    * focal length for Sandberg camera in pixels */
-  //const int focalLength = 1008;
-  const int focalLength = 1540;
+  const int focalLength = 1008;
+  //const int focalLength = 1540;
   const float golfBallDiameter = 0.043; // meter
   /**
    * camera position in robot coordinates (x (forward), y (left), z (up)) */
