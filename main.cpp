@@ -106,6 +106,7 @@ void golf(){
 		angle = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
+		
 		Upose startpose;
 		startpose.x = 0;
 		startpose.y = 0;
