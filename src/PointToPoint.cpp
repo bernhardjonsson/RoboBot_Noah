@@ -12,16 +12,16 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     cout << "h : " + to_string(currentPose->h) << endl;
     float dist = computeDistance(currentPose, targetPose);
 
-    float alpha = atan2(targetPose->y-currentPose->y,targetPose->x-currentPose->x);
+    float alpha = atan2(targetPose->y,targetPose->x);
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd log=10:time=0.05\n");
 
-    string cmdHead = "regbot madd vel=" + to_string(speed) + ",tr=0:turn=" + to_string(radToDeg(alpha) - radToDeg(currentPose->h)) + "\n";
+    string cmdHead = "regbot madd vel=" + to_string(speed) + ",tr=0:turn=" + to_string(radToDeg(alpha)) + "\n";
     string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + 
                     ":dist=" + to_string(dist) + "\n";
-    cout << "Angle : " + to_string(radToDeg(alpha) - radToDeg(currentPose->h)) << endl;
+    cout << "Angle : " + to_string(radToDeg(alpha)) << endl;
     cout << "Distance : "+ to_string(dist) << endl;
     bridge.tx(cmdHead.c_str());
     bridge.tx("regbot madd vel=0.0: time=0.1\n");
@@ -33,7 +33,7 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd log=10:time=0.05\n");
-    cmdHead = "regbot madd vel=" + to_string(speed) + "tr=0:turn=" + to_string(radToDeg(targetPose->h) - radToDeg(alpha)) + "\n";
+    cmdHead = "regbot madd vel=" + to_string(speed) + "tr=0:turn=" + to_string(radToDeg(wrapToPi(targetPose->h)) - radToDeg(alpha)) + "\n";
 
     bridge.tx(cmdHead.c_str());
     bridge.tx("regbot madd vel=0:time=0.05\n");
