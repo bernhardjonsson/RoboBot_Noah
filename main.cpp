@@ -106,13 +106,11 @@ void golf(){
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
 		
 		char cmdHead[100] = "regbot madd tr=0:turn=";
-		char str_ang[10] = { 0 };
-		str_ang = to_string(angle);
+		string str_ang = to_string(angle);
 		strcat(cmdHead, str_ang);
 		
 		char cmdDist[100] = "regbot madd vel=0.1,acc=0.5:dist=";
-		char str_dist[10] = { 0 };
-		str_dist = to_string(dist);
+		string str_dist = to_string(dist);
 		strcat(cmdDist, str_dist);
 		
 		printf(cmdHead);
