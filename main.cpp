@@ -101,26 +101,22 @@ void golf(){
 	if(vision.ball_found == true){
 		bridge.tx("regbot mclear\n");
 		angle = atan2(vision.ball_y, vision.ball_x);
-		angle = angle*180.0/3.1415;
+		angle = -angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
 		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
 		
-		char cmdHead[100] = "regbot madd tr=0:turn=";
-		//string str_ang = to_string(angle);
-		strcat(cmdHead, (char)angle);
-		
-		char cmdDist[100] = "regbot madd vel=0.1,acc=0.5:dist=";
-		//string str_dist = to_string(dist);
-		strcat(cmdDist, (char)dist);
-		
-		printf(cmdHead);
-		printf("\n");
-		printf(cmdDist);
-		printf("\n");
-		
-		//bridge.tx(cmdHead);
-		//bridge.tx(cmdDist);
-		//bridge.tx("regbot start\n");
+		string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
+		const char *head_char = cmdHead.c_str();
+				
+		string cmdDist = "regbot madd vel=0.1,acc=0.5:dist=" + to_string(dist) + "\n";
+		const char *dist_char = cmdDist.c_str();
+				
+		cout << cmdHead;
+		cout << cmdDist;
+				
+		bridge.tx(head_char);
+		bridge.tx(dist_char);
+		bridge.tx("regbot start\n");
 	}
 	
 }
