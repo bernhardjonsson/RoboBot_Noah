@@ -38,7 +38,7 @@
 // to avoid writing std:: 
 using namespace std;
 
-const float arm_length = 0.38;
+const float arm_length = 0.375;
 
 bool setup(int argc, char **argv)
 { // check for command line parameters
