@@ -142,7 +142,7 @@ void step2()
   { // wait for decision (button 2 (right) or 3 (left))
     if (joy.button(2))
     {
-      go_lef't = false;
+      go_left = false;
       sound.say(". OK. Going right.", 0.3);
       break;
     }
