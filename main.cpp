@@ -114,8 +114,9 @@ void golf(){
 		
 		PointToPoint goToTest;
 		UPose endpose;
-		endpose.x = vision.ball_x;
-		endpose.y = vision.ball_y;
+		arm_length = 0.38;
+		endpose.x = vision.ball_x - arm_length*cos(angle);
+		endpose.y = vision.ball_y - arm_length*sin(angle);
 		endpose.h = 0;
 		goToTest.goToPoint(&startpose, &endpose, 0.1, 0.5);
 		/*string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
