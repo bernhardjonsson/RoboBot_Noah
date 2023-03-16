@@ -38,7 +38,7 @@
 // to avoid writing std:: 
 using namespace std;
 
-const float arm_length = 0.375;
+const float arm_length = 0.480;
 
 bool setup(int argc, char **argv)
 { // check for command line parameters
@@ -119,21 +119,16 @@ void golf(){
 		
 		endpose.x = vision.ball_x - arm_length*cos(angle);
 		endpose.y = vision.ball_y - arm_length*sin(angle);
-		endpose.h = 0;
+		endpose.h = angle;
 		goToTest.goToPoint(&startpose, &endpose, 0.1, 0.5);
-		/*string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
+		
+		bridge.tx("regbot mclear\n");
+		event.clearEvents();
+		string cmdHead = "regbot madd servo=1,pservo=-50,vservo=125:time=1\n";
 		const char *head_char = cmdHead.c_str();
-				
-		string cmdDist = "regbot madd vel=0.1,acc=0.5:dist=" + to_string(dist) + "\n";
-		const char *dist_char = cmdDist.c_str();
-				
-		cout << cmdHead;
-		cout << cmdDist;
-				
 		bridge.tx(head_char);
-		bridge.tx(dist_char);
 		bridge.tx("regbot start\n");
-		//event.waitForEvent(0);*/
+		event.waitForEvent(0);
 	}
 	
 }
@@ -183,9 +178,15 @@ int main(int argc, char **argv)
   if (setup(argc, argv))
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
-    //
-    //step1();
-    //step2();
+    
+    bridge.tx("regbot mclear\n");
+    event.clearEvents();
+    string cmdHead = "regbot madd servo=1,pservo=1000,vservo=0:time=1\n";
+    const char *head_char = cmdHead.c_str();
+    bridge.tx(head_char);
+    bridge.tx("regbot start\n");
+    event.waitForEvent(0);
+    
     golf();
     //
     std::cout << "# Robobot mission finished ...\n";
