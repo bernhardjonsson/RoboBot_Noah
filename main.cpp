@@ -126,9 +126,9 @@ void golf(){
 		cout << cmdHead;
 		cout << cmdDist;
 				
-		//bridge.tx(head_char);
-		//bridge.tx(dist_char);
-		//bridge.tx("regbot start\n");
+		bridge.tx(head_char);
+		bridge.tx(dist_char);
+		bridge.tx("regbot start\n");
 		//event.waitForEvent(0);
 	}
 	
