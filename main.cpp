@@ -38,6 +38,7 @@
 // to avoid writing std:: 
 using namespace std;
 
+const float arm_length = 0.38;
 
 bool setup(int argc, char **argv)
 { // check for command line parameters
@@ -97,15 +98,16 @@ void step1()
 
 void golf(){
 	float angle;
+	float angled;
 	float dist;
 	vision.processImage(20);
 	if(vision.ball_found == true){
 		bridge.tx("regbot mclear\n");
 		event.clearEvents();
 		angle = atan2(vision.ball_y, vision.ball_x);
-		angle = angle*180.0/3.1415;
+		angled = angle*180.0/3.1415;
 		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
-		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angle);
+		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angled);
 		
 		UPose startpose;
 		startpose.x = 0;
@@ -114,7 +116,7 @@ void golf(){
 		
 		PointToPoint goToTest;
 		UPose endpose;
-		float arm_length = 0.38;
+		
 		endpose.x = vision.ball_x - arm_length*cos(angle);
 		endpose.y = vision.ball_y - arm_length*sin(angle);
 		endpose.h = 0;
