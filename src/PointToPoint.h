@@ -25,6 +25,6 @@ public:
     void goToPointWorldCoordinates(UPose* currentPose,UPose* targetPose, float speed, float acc);
 };
 
-
+extern PointToPoint pointtest;
 
 #endif
