@@ -112,12 +112,12 @@ void golf(){
 		startpose.y = 0;
 		startpose.h = 0;*/
 		
-		PointToPoint goToTest;
+		//PointToPoint goToTest;
 		UPose endpose;
 		endpose.x = vision.ball_x;
 		endpose.y = vision.ball_y;
 		endpose.h = 0;
-		goToTest.goToPoint(&pose, &endpose, 0.1, 0.5);
+		PointToPoint::goToPoint(&pose, &endpose, 0.1, 0.5);
 		/*string cmdHead = "regbot madd tr=0:turn=" + to_string(angle) + "\n";
 		const char *head_char = cmdHead.c_str();
 				
