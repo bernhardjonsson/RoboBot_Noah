@@ -126,9 +126,9 @@ void golf(){
 		cout << cmdHead;
 		cout << cmdDist;
 				
-		bridge.tx(head_char);
-		bridge.tx(dist_char);
-		bridge.tx("regbot start\n");
+		//bridge.tx(head_char);
+		//bridge.tx(dist_char);
+		//bridge.tx("regbot start\n");
 		//event.waitForEvent(0);
 	}
 	
@@ -142,7 +142,7 @@ void step2()
   { // wait for decision (button 2 (right) or 3 (left))
     if (joy.button(2))
     {
-      go_left = false;
+      go_lef't = false;
       sound.say(". OK. Going right.", 0.3);
       break;
     }
