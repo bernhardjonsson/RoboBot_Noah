@@ -114,7 +114,7 @@ void golf(){
 		
 		PointToPoint goToTest;
 		UPose endpose;
-		arm_length = 0.38;
+		float arm_length = 0.38;
 		endpose.x = vision.ball_x - arm_length*cos(angle);
 		endpose.y = vision.ball_y - arm_length*sin(angle);
 		endpose.h = 0;
