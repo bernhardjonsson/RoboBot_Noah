@@ -53,7 +53,7 @@ void run_mini_golf(){
 				printf("Working with ball in pos: (%.3f,%.3f)\n", cur_ball.x,cur_ball.y);
 				if (InHole(cur_ball) == false){
 					// go to golf ball
-					curr_pose = &go_to_golfball(cur_ball.x,cur_ball.y);
+					curr_pose = go_to_golfball(cur_ball.x,cur_ball.y);
 					// pick it up
 					capture_ball();
 
