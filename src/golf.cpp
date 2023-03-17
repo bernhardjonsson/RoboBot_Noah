@@ -131,8 +131,7 @@ void capture_ball()
 	event.waitForEvent(0);
 }
 
-bool InHole(Pos ball)
-{
+bool InHole(Pos ball){
 	float dist;
 	dist = sqrt(pow(ball.x - MINIGOLF_HOLE_X,2) + pow(ball.y - MINIGOLF_HOLE_Y,2));
 	if (dist < 0.12){
@@ -140,3 +139,4 @@ bool InHole(Pos ball)
 	}
 	return false
 }
+

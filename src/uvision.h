@@ -133,6 +133,10 @@ private:
 
   cv::Mat hsv_colormask();
   cv::Mat yuv_colormask();
+  float dist(float x, float y);
+  void swap(float *a, float *b);
+  void printArray(float array[], int size);
+  void selectionSort(float x[], float y[], int size);
   
 };
 

@@ -220,7 +220,8 @@ bool UVision::processImage(float seconds)
           if (ballBoundingBox.size() >= 1)
           { // test if the ball is on the floor
             ballProjectionAndTest();
-            //sort ball array
+			// sort distances in ascending order
+            selectionSort(ball_x, ball_y,N_GOLF_BALLS);
           }
         }
         frameCnt++;
@@ -481,24 +482,37 @@ bool UVision::doFindAruco()
 } 
 
 
-void selectionSort(int array[], int length) {
-  int i, j, min_value, min_index, tmp;
-  
-  for (i = 0; i < length; i++) {
-    min_value = array[i];
-    min_index = i;
-    
-    for (j = i+1; j < length; j++) {
-      if (array[j] < min_value) {
-        min_value = array[j];
-        min_index = j;
-      }
+float dist(float x, float y){
+    return sqrt(pow(x,2) + pow(y,2));
+}
+
+void swap(float *a, float *b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+void printArray(float array[], int size) {
+  for (int i = 0; i < size; i++) {
+    cout << array[i] << " ";
+  }
+  cout << endl;
+}
+
+void selectionSort(float x[], float y[], int size) {
+  for (int step = 0; step < size - 1; step++) {
+    int min_idx = step;
+    for (int i = step + 1; i < size; i++) {
+
+      // To sort in descending order, change > to < in this line.
+      // Select the minimum element in each loop.
+      if (dist(x[i],y[i]) < dist(x[min_idx],y[min_idx]))
+        min_idx = i;
     }
-    
-    if (min_value < array[i]) {
-      tmp = array[i];
-      array[i] = min_value;
-      array[min_index] = tmp;
-    }
+
+    // put min at the correct position
+    swap(&x[min_idx], &x[step]);
+    swap(&y[min_idx], &y[step]);
   }
 }
+
