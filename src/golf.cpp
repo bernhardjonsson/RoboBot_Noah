@@ -84,7 +84,7 @@ void run_mini_golf(){
 					endpose.y = 0 - curr_pose->y - ARM_LENGTH*sin(angle);
 					endpose.h = angle;
 					printf("Going to origin, (%.3f,%.3f) in robot frame\n",endpose.x,endpose.y);
-					p2p.goToPoint(&startpose, &endpose, 0.1, 0.5);
+					p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
 					curr_pose = &endpose;
 					// when golf ball is in hole go to orgini and repeat
 					break;
