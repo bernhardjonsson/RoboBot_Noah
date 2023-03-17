@@ -6,7 +6,7 @@
 #define ARM_LENGTH 0.48
 
 #include "uvision.h"
-#include "src/upose.h"
+#include "upose.h"
 
 struct Pos{
 	int x;
