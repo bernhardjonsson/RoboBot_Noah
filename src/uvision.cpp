@@ -482,24 +482,24 @@ bool UVision::doFindAruco()
 } 
 
 
-float dist(float x, float y){
+float UVision::dist(float x, float y){
     return sqrt(pow(x,2) + pow(y,2));
 }
 
-void swap(float *a, float *b) {
+void UVision::swap(float *a, float *b) {
   int temp = *a;
   *a = *b;
   *b = temp;
 }
 
-void printArray(float array[], int size) {
+void UVision::printArray(float array[], int size) {
   for (int i = 0; i < size; i++) {
     cout << array[i] << " ";
   }
   cout << endl;
 }
 
-void selectionSort(float x[], float y[], int size) {
+void UVision::selectionSort(float x[], float y[], int size) {
   for (int step = 0; step < size - 1; step++) {
     int min_idx = step;
     for (int i = step + 1; i < size; i++) {
