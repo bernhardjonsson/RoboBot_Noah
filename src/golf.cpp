@@ -34,9 +34,9 @@ void run_mini_golf(){
 	float angle;
 	UPose* curr_pose;
 
-	curr_pose->x = 0;
-	curr_pose->y = 0;
-	curr_pose->h = 0;
+	//curr_pose.x = 0;
+	//curr_pose.y = 0;
+	//curr_pose.h = 0;
 
 	for(int run=1; run<=4;run++)
 	{
