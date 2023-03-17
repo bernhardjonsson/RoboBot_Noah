@@ -69,7 +69,7 @@ public:
   /// show image to X-terminal
   bool showImage = false;
   // use yolo for ball detection
-  bool useYolo = false;
+  bool useYolo = true;
   /**
     * images for manual function using slider */
   cv::Mat dest;
@@ -114,7 +114,7 @@ private:
   mutex dataLock;
   //
   //
-  bool findBall = false;
+  bool findBall = true;
   bool doFindBall();
   cv::Mat debugImg;
   /**
