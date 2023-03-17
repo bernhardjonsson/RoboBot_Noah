@@ -32,11 +32,11 @@ void run_golf_seesaw(){
 void run_mini_golf(){
 	Pos cur_ball;
 	float angle;
-	UPose curr_pose;
+	UPose* curr_pose;
 
-	curr_pose.x = 0;
-	curr_pose.y = 0;
-	curr_pose.h = 0;
+	curr_pose->x = 0;
+	curr_pose->y = 0;
+	curr_pose->h = 0;
 
 	for(int run=1; run<=4;run++)
 	{
@@ -61,9 +61,9 @@ void run_mini_golf(){
 					PointToPoint p2p;
 					UPose endpose;
 
-					angle = atan2(MINIGOLF_HOLE_Y - curr_pose.y, MINIGOLF_HOLE_X - curr_pose.x);
-					endpose.x =  MINIGOLF_HOLE_X - curr_pose.x - ARM_LENGTH*cos(angle);
-					endpose.y = MINIGOLF_HOLE_Y - curr_pose.y - ARM_LENGTH*sin(angle);
+					angle = atan2(MINIGOLF_HOLE_Y - *curr_pose.y, MINIGOLF_HOLE_X - curr_pose.x);
+					endpose.x =  MINIGOLF_HOLE_X - *curr_pose.x - ARM_LENGTH*cos(angle);
+					endpose.y = MINIGOLF_HOLE_Y - *curr_pose.y - ARM_LENGTH*sin(angle);
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose.x,curr_pose.y,curr_pose.h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
@@ -96,7 +96,7 @@ void run_mini_golf(){
 	
 }
 
-UPose go_to_golfball(float ball_x,float ball_y){
+UPose* go_to_golfball(float ball_x,float ball_y){
 	float angle;
 	float angled;
 	float dist;
@@ -118,7 +118,7 @@ UPose go_to_golfball(float ball_x,float ball_y){
 	endpose.y = ball_y - ARM_LENGTH*sin(angle);
 	endpose.h = angle;
 	goToTest.goToPoint(&startpose, &endpose, 0.1, 0.5);
-	return endpose;
+	return &endpose;
 }
 
 void capture_ball()
