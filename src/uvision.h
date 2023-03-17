@@ -48,6 +48,7 @@ using namespace std;
 class UVision{
   
 public:
+  const int N_GOLF_BALLS=6;
   /** setup and request data */
   void setup(int argc, char **argv);
   /** decode an unpacked incoming messages
@@ -75,9 +76,10 @@ public:
   cv::Mat source;
   int slider1;
   int slider2;
-  float ball_x;
-  float ball_y;
-  float ball_z;
+  float ball_x[N_GOLF_BALLS];
+  float ball_y[N_GOLF_BALLS];
+  float ball_z[N_GOLF_BALLS];
+  int detected_balls;
   bool ball_found = false;
   /**
    * focal length for Sandberg camera in pixels */

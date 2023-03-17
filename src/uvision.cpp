@@ -207,18 +207,20 @@ bool UVision::processImage(float seconds)
         }
         if (findBall and n > 2)
         {
-          if(useYolo == true){
-	  	cv::imwrite("raw.png", frame);
+          if(useYolo == true)
+          {
+	  	      cv::imwrite("raw.png", frame);
           	system("python yolo.py");
-	  }
+	         }
           t3.now();
           ballBoundingBox.clear();
           terminate = doFindBall();
-					terminate = false; // for longer debuging
+					//terminate = false; // for longer debuging
           printf("Find ball took %.3f sec\n", t3.getTimePassed());
           if (ballBoundingBox.size() >= 1)
           { // test if the ball is on the floor
             ballProjectionAndTest();
+            //sort ball array
           }
         }
         frameCnt++;
@@ -414,6 +416,7 @@ void UVision::ballProjectionAndTest()
   bool done = ballBoundingBox.size() == 0;
   if (not done)
   {
+    detected_balls = ballBoundingBox.size();
     for (int i = 0; i < (int)ballBoundingBox.size(); i++)
     {
       printf("---\n");
@@ -442,10 +445,10 @@ void UVision::ballProjectionAndTest()
       cv::Mat1f pos3drob = camToRobot * pos3dcam;
       printf("# ball %d position in robot coordinates (x,y,z)=(%.2f, %.2f, %.2f)\n", i, 
              pos3drob.at<float>(0), pos3drob.at<float>(1), pos3drob.at<float>(2));
-	  ball_found = true;
-	  ball_x = pos3drob.at<float>(0);
-      ball_y =  pos3drob.at<float>(1);
-	  ball_z =  pos3drob.at<float>(2);
+      ball_found = true;
+      ball_x[i]= pos3drob.at<float>(0);
+      ball_y[i] =  pos3drob.at<float>(1);
+      ball_z[i] =  pos3drob.at<float>(2);
       //
       if (showImage)
       { // put coordinates in debug image
@@ -476,3 +479,26 @@ bool UVision::doFindAruco()
   printf("# not implemented\n");
   return false;
 } 
+
+
+void selectionSort(int array[], int length) {
+  int i, j, min_value, min_index, tmp;
+  
+  for (i = 0; i < length; i++) {
+    min_value = array[i];
+    min_index = i;
+    
+    for (j = i+1; j < length; j++) {
+      if (array[j] < min_value) {
+        min_value = array[j];
+        min_index = j;
+      }
+    }
+    
+    if (min_value < array[i]) {
+      tmp = array[i];
+      array[i] = min_value;
+      array[min_index] = tmp;
+    }
+  }
+}

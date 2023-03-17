@@ -34,11 +34,11 @@
 #include "src/uevent.h"
 #include "src/ujoy.h"
 #include "src/PointToPoint.h"
+#include "src/golf.h"
 
 // to avoid writing std:: 
 using namespace std;
 
-const float arm_length = 0.480;
 
 bool setup(int argc, char **argv)
 { // check for command line parameters
@@ -62,115 +62,22 @@ bool setup(int argc, char **argv)
     vision.setup(argc, argv);
     event.setup();
     joy.setup();
+
+    // move arm to initial position
+    bridge.tx("regbot mclear\n");
+    event.clearEvents();
+    bridge.tx("regbot madd servo=1,pservo=1000,vservo=0:time=1\n");
+    bridge.tx("regbot start\n");
+    event.waitForEvent(0);    
+
     printf("# Setup finished OK\n");
   }
   else
 	{
     printf("# Setup failed\n");
- 		sound.say("me?... I am a depressed robot.", 0.1);
+    return false;
 	}
-		//   while (sound.isSaying())
-//     usleep(100000);
-  // a bit of background music
-  //sound.play("/home/local/Music/music.mp3", 0.05);
   return true;
-}
-
-void step1()
-{
-  sound.say(". Step one.", 0.3);
-  // remove old mission
-  bridge.tx("regbot mclear\n");
-  // clear events received from last mission
-  event.clearEvents();
-  // add mission lines
-  bridge.tx("regbot madd vel=0.2:time=1\n");
-  bridge.tx("regbot madd tr=0.1:time=1,turn=-90\n");
-  bridge.tx("regbot madd :time=1\n");
-  // start this mission
-  bridge.tx("regbot start\n");
-  // wait until finished
-  //
-  cout << "Waiting for step 1 to finish (event 0 is send, when mission is finished)\n";
-  event.waitForEvent(0);
-//   sound.say(". Step one finished.");
-}
-
-void golf(){
-	float angle;
-	float angled;
-	float dist;
-	vision.processImage(20);
-	if(vision.ball_found == true){
-		bridge.tx("regbot mclear\n");
-		event.clearEvents();
-		angle = atan2(vision.ball_y, vision.ball_x);
-		angled = angle*180.0/3.1415;
-		dist = sqrt(pow(vision.ball_x,2) + pow(vision.ball_y,2));
-		printf("distance: %.3f meters, angle: %.3f degrees\n", dist, angled);
-		
-		UPose startpose;
-		startpose.x = 0;
-		startpose.y = 0;
-		startpose.h = 0;
-		
-		PointToPoint goToTest;
-		UPose endpose;
-		
-		endpose.x = vision.ball_x - arm_length*cos(angle);
-		endpose.y = vision.ball_y - arm_length*sin(angle);
-		endpose.h = angle;
-		goToTest.goToPoint(&startpose, &endpose, 0.1, 0.5);
-		
-		bridge.tx("regbot mclear\n");
-		event.clearEvents();
-		string cmdHead = "regbot madd servo=1,pservo=-50,vservo=125:time=1\n";
-		const char *head_char = cmdHead.c_str();
-		bridge.tx(head_char);
-		bridge.tx("regbot start\n");
-		event.waitForEvent(0);
-	}
-	
-}
-
-void step2()
-{
-//   sound.say(". Step two. Press button two for right, button three for left", 0.3);
-  bool go_left = true;
-  while (true)
-  { // wait for decision (button 2 (right) or 3 (left))
-    if (joy.button(2))
-    {
-      go_left = false;
-      sound.say(". OK. Going right.", 0.3);
-      break;
-    }
-    else if (joy.button(3))
-    {
-      go_left = true;
-      sound.say(". OK. Going left.", 0.3);
-      break;
-    }
-    else // wait
-      usleep(5000);
-  }
-  // remove old mission
-  bridge.tx("regbot mclear\n");
-  // clear events received from last mission
-  event.clearEvents();
-  // add mission lines
-  if (go_left)
-    bridge.tx("regbot madd vel=0.2,tr=0.1:turn=90\n");
-  else
-    bridge.tx("regbot madd vel=0.2,tr=0.1:turn=-90\n");
-  // drive a bit straight for correct end heading
-  bridge.tx("regbot madd :dist=0.2\n"); 
-  // start this mission
-  bridge.tx("regbot start\n");
-  // wait until finished
-  cout << "Waiting for step 1 to finish (event 0 is send, when mission is finished)\n";
-  event.waitForEvent(0);
-  sound.say(". Step two finished.");
 }
 
 int main(int argc, char **argv) 
@@ -178,23 +85,15 @@ int main(int argc, char **argv)
   if (setup(argc, argv))
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
-    
-    bridge.tx("regbot mclear\n");
-    event.clearEvents();
-    string cmdHead = "regbot madd servo=1,pservo=1000,vservo=0:time=1\n";
-    const char *head_char = cmdHead.c_str();
-    bridge.tx(head_char);
-    bridge.tx("regbot start\n");
-    event.waitForEvent(0);
-    
-    golf();
-    //
+        
+    run_golf_seesaw();
+
     std::cout << "# Robobot mission finished ...\n";
+
+
+
     // remember to close camera
     vision.stop();
-    //sound.say("I am finished... sorry danish.", 0.2);
-    while (sound.isSaying())
-      sleep(1);
     bridge.tx("regbot mute 1\n");
   }
   return 0;
