@@ -3,12 +3,12 @@
 #include<cmath>
 #include <string>
 
-#include "src/PointToPoint.h"
-#include "src/uevent.h"
-#include "src/ubridge.h"
-#include "src/uvision.h"
-#include "src/upose.h"
-#include "src/golf.h"
+#include "PointToPoint.h"
+#include "uevent.h"
+#include "ubridge.h"
+#include "uvision.h"
+#include "upose.h"
+#include "golf.h"
 
 using namespace std;
 
