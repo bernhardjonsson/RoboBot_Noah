@@ -19,7 +19,7 @@ void run_golf_seesaw(){
 	vision.processImage(20);
 	if(vision.ball_found == true){
 
-		go_to_golfball(vision.ball_x[0],vision.ball_y[0]);
+		go_to_golfball(vision.ball_x[0],vision.ball_y[0], endpose_global);
     	// capture the golf ball
 		capture_ball();
 
@@ -53,7 +53,7 @@ void run_mini_golf(){
 				printf("Working with ball in pos: (%.3f,%.3f)\n", cur_ball.x,cur_ball.y);
 				if (InHole(cur_ball) == false){
 					// go to golf ball
-					curr_pose = go_to_golfball(cur_ball.x,cur_ball.y);
+					curr_pose = go_to_golfball(cur_ball.x,cur_ball.y,endpose_global);
 					// pick it up
 					capture_ball();
 
