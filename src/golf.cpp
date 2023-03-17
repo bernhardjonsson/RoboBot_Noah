@@ -71,7 +71,7 @@ void run_mini_golf(){
 					curr_pose = endpose;
 
 					// release ball
-					printf("Releasing golf ball\n")
+					printf("Releasing golf ball\n");
 					bridge.tx("regbot mclear\n");
 					event.clearEvents();
 					bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=1\n");
@@ -85,7 +85,7 @@ void run_mini_golf(){
 					endpose.h = angle;
 					printf("Going to origin, (%.3f,%.3f) in robot frame\n",endpose.x,endpose.y);
 					p2p.goToPoint(&startpose, &endpose, 0.1, 0.5);
-					curr_pose = endpose
+					curr_pose = endpose;
 					// when golf ball is in hole go to orgini and repeat
 					break;
 				}
