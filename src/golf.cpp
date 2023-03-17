@@ -112,7 +112,7 @@ UPose* go_to_golfball(float ball_x,float ball_y){
 	startpose.h = 0;
 	
 	PointToPoint goToTest;
-	UPose endpose;
+	UPose* endpose;
 		
 	endpose.x = ball_x - ARM_LENGTH*cos(angle);
 	endpose.y = ball_y - ARM_LENGTH*sin(angle);
