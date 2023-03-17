@@ -19,7 +19,7 @@ void run_golf_seesaw(){
 	vision.processImage(20);
 	if(vision.ball_found == true){
 
-		go_to_golfball(vision.ball_x[0],vision_ball_y[0]);
+		go_to_golfball(vision.ball_x[0],vision.ball_y[0]);
     	// capture the golf ball
 		capture_ball();
 
@@ -67,8 +67,8 @@ void run_mini_golf(){
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose.x,curr_pose.y,curr_pose.h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
-					p2p.goToPoint(&startpose, &endpose, 0.1, 0.5);
-					curr_pose = endpose
+					p2p.goToPoint(&curr_pose, &endpose, 0.1, 0.5);
+					curr_pose = endpose;
 
 					// release ball
 					printf("Releasing golf ball\n")
@@ -135,8 +135,8 @@ bool InHole(Pos ball){
 	float dist;
 	dist = sqrt(pow(ball.x - MINIGOLF_HOLE_X,2) + pow(ball.y - MINIGOLF_HOLE_Y,2));
 	if (dist < 0.12){
-		return true
+		return true;
 	}
-	return false
+	return false;
 }
 

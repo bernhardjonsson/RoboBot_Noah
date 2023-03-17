@@ -9,8 +9,8 @@
 #include "upose.h"
 
 struct Pos{
-	int x;
-	int y;
+	float x;
+	float y;
 }; 
 
 void run_golf_seesaw();
