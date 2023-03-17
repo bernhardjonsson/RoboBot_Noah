@@ -310,7 +310,7 @@ bool UVision::doFindBall()
   cv::dilate(gray3, gray4, cv::Mat(), cv::Point(-1,-1), 1);
   
   if(useYolo==true){
-  	frame = cv::imread("black.png");
+  	frame = cv::imread("black_all.png");
   	cv::cvtColor(frame, gray4, cv::COLOR_BGR2GRAY);
   }
   
