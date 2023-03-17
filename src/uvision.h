@@ -48,7 +48,7 @@ using namespace std;
 class UVision{
   
 public:
-  const int N_GOLF_BALLS=6;
+  static const int N_GOLF_BALLS=6;
   /** setup and request data */
   void setup(int argc, char **argv);
   /** decode an unpacked incoming messages
