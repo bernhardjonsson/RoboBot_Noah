@@ -117,8 +117,8 @@ UPose* go_to_golfball(float ball_x,float ball_y){
 	endpose.x = ball_x - ARM_LENGTH*cos(angle);
 	endpose.y = ball_y - ARM_LENGTH*sin(angle);
 	endpose.h = angle;
-	goToTest.goToPoint(&startpose, &endpose, 0.1, 0.5);
-	return &endpose;
+	goToTest.goToPoint(&startpose, endpose, 0.1, 0.5);
+	return endpose;
 }
 
 void capture_ball()
