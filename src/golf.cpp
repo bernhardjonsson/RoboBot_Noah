@@ -193,8 +193,8 @@ void minigolf_test(){
 	printf("\n");
 	
 	p2p.goToPoint(&localpose, &goto_pose, 0.1, 0.5);
-	curr_pose->x  = goto_pose.x + curr_pose->x;
-	curr_pose->y  = goto_pose.y + curr_pose->y;
+	curr_pose->x  = goto_pose.x - curr_pose->x;
+	curr_pose->y  = goto_pose.y - curr_pose->y;
 	curr_pose->h  = goto_pose.h;
 	
 	angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
@@ -204,8 +204,8 @@ void minigolf_test(){
 	
 	printf("want  to go to (origin):\n");
 	cout << "x : " + to_string(goto_pose.x) << endl;
-    cout << "y : " + to_string(goto_pose.x) << endl;
-    cout << "h : " + to_string(goto_pose.x) << endl;
+    cout << "y : " + to_string(goto_pose.y) << endl;
+    cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
 	p2p.goToPoint(&localpose, &goto_pose, 0.1, 0.5);
