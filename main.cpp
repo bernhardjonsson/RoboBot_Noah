@@ -135,19 +135,139 @@ int main(int argc, char **argv)
 {
   if (setup(argc, argv))
   { // start mission
-    std::cout << "# Robobot mission starting ...\n";
-    //
-    //step1();
-    //step2();
-    vision.processImage(120);
-    //
-    std::cout << "# Robobot mission finished ...\n";
-    // remember to close camera
-    vision.stop();
-    //sound.say("I am finished... sorry danish.", 0.2);
-    while (sound.isSaying())
-      sleep(1);
-    bridge.tx("regbot mute 1\n");
+  /*cout << irsensor.ir1 << endl;
+  cout << irsensor.ir2 << endl;
+  float vel = 0.3;
+  float acc = 0.8; 
+  int level = 4; 
+  float distance = 1; 
+  bool rightOrLeft = 1;
+    FollowLine missiontest(vel, acc, level, distance, rightOrLeft);
+    missiontest.runMission();
+  */
+   /*if (irsensor.ir2 >= 0.5){
+      bridge.tx("regbot mclear\n");
+      bridge.tx("regbot madd log=10:time = 0.05\n");
+      bridge.tx("regbot madd vel=0.3:ir2 < 0.25\n");
+      bridge.tx("regbot madd vel=0 : time = 0.5\n");
+      bridge.tx("regbot start\n");
+    }*/
+   /* float vel = 0.3;
+    float acc = 0.8; 
+    float distance = 1; 
+    float irDistance = 0.3;
+    float maxDistance = 1.5;
+    AxeMission axeMissionTest(vel,acc,distance,irDistance,maxDistance);
+    axeMissionTest.runMission();*/
+  /*
+    PointToPoint goToTest;
+    UPose targetPose;
+    targetPose.x = 1.5;
+    targetPose.y = 0;
+    targetPose.h = -PI/2;
+
+    float speed = 1.5;
+    float acc = 0.8;
+    float turnSpeed = 0.5;
+    goToTest.goToPoint(&pose,&targetPose,speed,acc,turnSpeed);
+    
+    targetPose.x = 1.5;
+    targetPose.y = 0;
+    targetPose.h = -PI/2;
+    goToTest.goToPoint(&pose,&targetPose,speed,acc,turnSpeed);
+
+    targetPose.x = 1.5;
+    targetPose.y = 0;
+    targetPose.h = -PI/2;
+    goToTest.goToPoint(&pose,&targetPose,speed,acc,turnSpeed);
+
+    targetPose.x = 1.5;
+    targetPose.y = 0;
+    targetPose.h = -PI/2;
+    goToTest.goToPoint(&pose,&targetPose,speed,acc,turnSpeed);
+
+    */
+  bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=5\n");
+	bridge.tx("regbot start\n");
+  event.waitForEvent(0);
+
+   float vel = 0.5;
+  float acc = 0.8; 
+  int level = 12; 
+  float distance = 5; 
+  bool rightOrLeft = 1;
+  FollowLine missionFirstpart(vel, acc, level, distance, rightOrLeft);
+  missionFirstpart.runMission();
+
+  vel = 0.5;
+  distance = 10;
+  rightOrLeft = 0;
+  FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
+  missionSecondpart.runMission();
+
+  PointToPoint goToBalance;
+  UPose targetPose;
+  targetPose.x = 0;
+  targetPose.y = 0;
+  targetPose.h =  1.2217;
+  goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+  FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
+  missionStartBalance.runMission();
+
+  targetPose.x = 0.3;
+  targetPose.y = 0;
+  targetPose.h = 0;
+  goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+  // Golf ball mission
+  bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=10\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+  // ENd 
+  rightOrLeft = 1;
+  vel = 0.3;
+  FollowLine missionEndBalance(vel, acc, level, 1.5, rightOrLeft);
+  missionEndBalance.runMission();
+
+  // Wait until balance is down
+   bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd vel=0.0:time=5\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+
+  FollowLine missionEndBalance2(vel, acc, level, 1, rightOrLeft);
+  missionEndBalance2.runMission();
+
+  targetPose.x = 1;
+  targetPose.y = 0;
+  targetPose.h = -PI/2;
+  goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+
+  targetPose.x = 5;
+  targetPose.y = 0;
+  targetPose.h = 0;
+  goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+
+  targetPose.x = 0.2;
+  targetPose.y = 0;
+  targetPose.h = 0;
+  goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+
+  targetPose.x = 5;
+  targetPose.y = 0;
+  targetPose.h = -1.2217;
+  goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+
+  rightOrLeft = 0;
+  vel = 0.5;
+  FollowLine missionGoToRoundAbout(vel, acc, level, 12, rightOrLeft);
+  missionGoToRoundAbout.runMission();
+
   }
   return 0;
 }
+
