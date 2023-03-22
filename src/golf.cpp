@@ -15,16 +15,16 @@ using namespace std;
 
 
 void run_golf_seesaw(){
-	UPose* curr_pose;
+	UPose curr_pose;
 
-	curr_pose->x = 0;
-	curr_pose->y = 0;
-	curr_pose->h = 0;
+	curr_pose.x = 0;
+	curr_pose.y = 0;
+	curr_pose.h = 0;
 
 	vision.processImage(20);
 	if(vision.ball_found == true){
 
-		go_to_golfball(vision.ball_x[0],vision.ball_y[0], curr_pose);
+		go_to_golfball(vision.ball_x[0],vision.ball_y[0], &curr_pose);
     	// capture the golf ball
 		capture_ball();
 
@@ -37,11 +37,11 @@ void run_golf_seesaw(){
 void run_mini_golf(){
 	Pos cur_ball;
 	float angle;
-	UPose* curr_pose;
+	UPose curr_pose;
 
-	curr_pose->x = 0;
-	curr_pose->y = 0;
-	curr_pose->h = 0;
+	curr_pose.x = 0;
+	curr_pose.y = 0;
+	curr_pose.h = 0;
 
 	for(int run=1; run<=4;run++)
 	{
@@ -58,7 +58,7 @@ void run_mini_golf(){
 				printf("Working with ball in pos: (%.3f,%.3f)\n", cur_ball.x,cur_ball.y);
 				if (InHole(cur_ball) == false){
 					// go to golf ball
-					go_to_golfball(cur_ball.x,cur_ball.y, curr_pose);
+					go_to_golfball(cur_ball.x,cur_ball.y, &curr_pose);
 					// pick it up
 					capture_ball();
 
