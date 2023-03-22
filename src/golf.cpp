@@ -48,7 +48,7 @@ void run_mini_golf(){
 		printf("Performing run: %d of 4\n", run);
 		vision.processImage(20);
 		if(vision.ball_found == true){
-			for(int i=0; i<vision.detected_balls; i++)
+			for(int i=0; i<6; i++)
 			{
 				vision.printArray(vision.ball_x,6);
 				vision.printArray(vision.ball_y,6);
