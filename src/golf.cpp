@@ -96,7 +96,7 @@ void run_mini_golf(){
 	
 }
 
-UPose* go_to_golfball(float ball_x,float ball_y, UPose* endpose){
+UPose* go_to_golfball(float ball_x,float ball_y){
 	float angle;
 	float angled;
 	float dist;
