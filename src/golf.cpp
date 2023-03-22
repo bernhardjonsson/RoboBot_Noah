@@ -139,7 +139,6 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 
 void minigolf_test(){
 	Pos cur_ball;
-	float angle;
 	UPose* curr_pose = new UPose();
 
 	curr_pose->x = 0;
@@ -172,6 +171,7 @@ void minigolf_test(){
 	printf("\n");
 	
 	/*PointToPoint p2p;
+	float angle;
 	UPose endpose;
 
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
