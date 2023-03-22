@@ -170,7 +170,7 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
-	/*PointToPoint p2p;
+	PointToPoint p2p;
 	float angle;
 	UPose endpose;
 
@@ -185,7 +185,7 @@ void minigolf_test(){
     cout << "h : " + to_string(endpose.h) << endl;
 	printf("\n");
 	
-	p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);*/
+	p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
 	
 	
 	
