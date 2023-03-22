@@ -154,6 +154,7 @@ void minigolf_test(){
 	cout << "x : " + to_string(curr_pose->x) << endl;
     cout << "y : " + to_string(curr_pose->y) << endl;
     cout << "h : " + to_string(curr_pose->h) << endl;
+	printf("\n");
 	
 	PointToPoint p2p;
 	UPose endpose;
@@ -162,6 +163,12 @@ void minigolf_test(){
 	endpose.x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle)- curr_pose->x;
 	endpose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle)- curr_pose->y;
 	endpose.h = angle;
+	
+	printf("want  to go to:\n");
+	cout << "x : " + to_string(endpose->x) << endl;
+    cout << "y : " + to_string(endpose->y) << endl;
+    cout << "h : " + to_string(endpose->h) << endl;
+	printf("\n");
 	
 	p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
 	
