@@ -145,11 +145,18 @@ void minigolf_test(){
 	vision.printArray(vision.ball_x,6);
 	vision.printArray(vision.ball_y,6);
 	// extract current golf ball position
-	printf("current ball coordinates\n");
-	cur_ball.x = vision.ball_x[0];
-	cur_ball.y = vision.ball_y[0];
 	
+	cur_ball.x = 0.5;//vision.ball_x[0];
+	cur_ball.y = -0.1;//vision.ball_y[0];
+	
+	printf("current ball coordinates\n");
+	cout << "x : " + to_string(cur_ball.x) << endl;
+    cout << "y : " + to_string(cur_ball.y) << endl;
+	
+	printf("going to ball\n");
+
 	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose);
+	
 	printf("robot now at:\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
     cout << "y : " + to_string(curr_pose->y) << endl;
