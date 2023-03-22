@@ -96,7 +96,7 @@ void run_mini_golf(){
 	
 }
 
-UPose* go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
+void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	float angle;
 	float angled;
 	float dist;
@@ -116,7 +116,7 @@ UPose* go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
 	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
 	curr_pose->h = angle;
-	goToTest.goToPoint(&startpose,endpose, 0.1, 0.5);
+	goToTest.goToPoint(&startpose,curr_pose, 0.1, 0.5);
 	
 }
 
