@@ -153,8 +153,8 @@ void minigolf_test(){
 	vision.printArray(vision.ball_y,6);
 	// extract current golf ball position
 	
-	cur_ball.x = 0.5;//vision.ball_x[0];
-	cur_ball.y = -0.1;//vision.ball_y[0];
+	cur_ball.x = 1.5;//vision.ball_x[0];
+	cur_ball.y = -0.5;//vision.ball_y[0];
 	
 	printf("current ball coordinates\n");
 	cout << "x : " + to_string(cur_ball.x) << endl;
