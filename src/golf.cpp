@@ -15,7 +15,7 @@ using namespace std;
 
 
 void run_golf_seesaw(){
-	UPose* curr_pose;
+	UPose* curr_pose = new UPose();
 
 	curr_pose->x = 0;
 	curr_pose->y = 0;
