@@ -74,24 +74,24 @@ void run_mini_golf(){
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose->x,curr_pose->y,curr_pose->h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
-					p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5);
 					curr_pose = &endpose;
 
 					// release ball
 					printf("Releasing golf ball\n");
 					bridge.tx("regbot mclear\n");
 					event.clearEvents();
-					bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=1\n");
+					bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=5\n");
 					bridge.tx("regbot start\n");
 					event.waitForEvent(0);
 					
 					// go to origin
 					angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
-					endpose.x =  0 - curr_pose->x - ARM_LENGTH*cos(angle);
-					endpose.y = 0 - curr_pose->y - ARM_LENGTH*sin(angle);
-					endpose.h = angle;
+					endpose.x =  0;// - curr_pose->x - ARM_LENGTH*cos(angle);
+					endpose.y = 0; //- curr_pose->y - ARM_LENGTH*sin(angle);
+					endpose.h = 0;//angle;
 					printf("Going to origin, (%.3f,%.3f) in robot frame\n",endpose.x,endpose.y);
-					p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5);
 					curr_pose = &endpose;
 					// when golf ball is in hole go to orgini and repeat
 					break;
@@ -134,7 +134,7 @@ void capture_ball()
 	// capture the golf ball
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=1\n");
+	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=5\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 }
