@@ -66,13 +66,13 @@ void run_mini_golf(){
 					PointToPoint p2p;
 					UPose endpose;
 
-					angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
-					endpose.x =  MINIGOLF_HOLE_X - curr_pose->x - ARM_LENGTH*cos(angle);
-					endpose.y = MINIGOLF_HOLE_Y - curr_pose->y - ARM_LENGTH*sin(angle);
+					angle = atan2(MINIGOLF_HOLE_Y - curr_pose.y, MINIGOLF_HOLE_X - curr_pose.x);
+					endpose.x =  MINIGOLF_HOLE_X - curr_pose.x - ARM_LENGTH*cos(angle);
+					endpose.y = MINIGOLF_HOLE_Y - curr_pose.y - ARM_LENGTH*sin(angle);
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose->x,curr_pose->y,curr_pose->h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
-					p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPoint(&curr_pose, &endpose, 0.1, 0.5);
 					curr_pose = &endpose;
 
 					// release ball
@@ -84,12 +84,12 @@ void run_mini_golf(){
 					event.waitForEvent(0);
 					
 					// go to origin
-					angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
-					endpose.x =  0 - curr_pose->x - ARM_LENGTH*cos(angle);
-					endpose.y = 0 - curr_pose->y - ARM_LENGTH*sin(angle);
+					angle = atan2(0 - curr_pose.y, 0 - curr_pose->x);
+					endpose.x =  0 - curr_pose.x - ARM_LENGTH*cos(angle);
+					endpose.y = 0 - curr_pose.y - ARM_LENGTH*sin(angle);
 					endpose.h = angle;
 					printf("Going to origin, (%.3f,%.3f) in robot frame\n",endpose.x,endpose.y);
-					p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPoint(&curr_pose, &endpose, 0.1, 0.5);
 					curr_pose = &endpose;
 					// when golf ball is in hole go to orgini and repeat
 					break;
