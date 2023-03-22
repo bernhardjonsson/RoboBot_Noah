@@ -204,8 +204,8 @@ void minigolf_test(){
 	printf("\n");
 	
 	angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
-	goto_pose.x =  0 - curr_pose->x;
-	goto_pose.y = 0 - curr_pose->y;
+	goto_pose.x =  0 + curr_pose->x;
+	goto_pose.y = 0 + curr_pose->y;
 	goto_pose.h = angle;
 	
 	
