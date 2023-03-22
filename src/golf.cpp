@@ -69,8 +69,8 @@ void run_mini_golf(){
 					UPose endpose;
 
 					angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
-					endpose.x =  MINIGOLF_HOLE_X - curr_pose->x - ARM_LENGTH*cos(angle);
-					endpose.y = MINIGOLF_HOLE_Y - curr_pose->y - ARM_LENGTH*sin(angle);
+					endpose.x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle); //- curr_pose->x
+					endpose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle);//- curr_pose->y
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose->x,curr_pose->y,curr_pose->h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
@@ -81,7 +81,7 @@ void run_mini_golf(){
 					printf("Releasing golf ball\n");
 					bridge.tx("regbot mclear\n");
 					event.clearEvents();
-					bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=5\n");
+					bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=10\n");
 					bridge.tx("regbot start\n");
 					event.waitForEvent(0);
 					
@@ -134,7 +134,7 @@ void capture_ball()
 	// capture the golf ball
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=5\n");
+	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=10\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 }
