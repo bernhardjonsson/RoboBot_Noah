@@ -50,8 +50,8 @@ void run_mini_golf(){
 		if(vision.ball_found == true){
 			for(int i=0; i<vision.detected_balls; i++)
 			{
-				vision.printArray(ball_x);
-				vision.printArray(ball_y);
+				vision.printArray(vision.ball_x);
+				vision.printArray(vision.ball_y);
 				// extract current golf ball position
 				cur_ball.x = vision.ball_x[i];
 				cur_ball.y = vision.ball_y[i];
