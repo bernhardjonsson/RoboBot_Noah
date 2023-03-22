@@ -197,8 +197,8 @@ void minigolf_test(){
 	curr_pose->h  = goto_pose.h;
 	
 	angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
-	goto_pose.x =  0 - curr_pose->x;
-	goto_pose.x = 0 - curr_pose->y;
+	goto_pose.x =  0;// - curr_pose->x;
+	goto_pose.x = 0;// - curr_pose->y;
 	goto_pose.x = angle;
 	
 	printf("want  to go to (origin):\n");
