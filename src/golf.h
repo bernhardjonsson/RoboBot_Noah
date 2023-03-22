@@ -16,7 +16,8 @@ struct Pos{
 
 void run_golf_seesaw();
 void run_mini_golf();
-UPose* go_to_golfball(float ball_x,float ball_y);
+void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose);
 void capture_ball();
 bool InHole(Pos ball);
+
 #endif

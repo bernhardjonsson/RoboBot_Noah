@@ -34,9 +34,9 @@ void run_mini_golf(){
 	float angle;
 	UPose* curr_pose;
 
-	//curr_pose.x = 0;
-	//curr_pose.y = 0;
-	//curr_pose.h = 0;
+	curr_pose->x = 0;
+	curr_pose->y = 0;
+	curr_pose->h = 0;
 
 	for(int run=1; run<=4;run++)
 	{
@@ -53,7 +53,7 @@ void run_mini_golf(){
 				printf("Working with ball in pos: (%.3f,%.3f)\n", cur_ball.x,cur_ball.y);
 				if (InHole(cur_ball) == false){
 					// go to golf ball
-					curr_pose = go_to_golfball(cur_ball.x,cur_ball.y);
+					go_to_golfball(cur_ball.x,cur_ball.y, curr_pose);
 					// pick it up
 					capture_ball();
 
@@ -96,7 +96,7 @@ void run_mini_golf(){
 	
 }
 
-UPose* go_to_golfball(float ball_x,float ball_y){
+UPose* go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	float angle;
 	float angled;
 	float dist;
@@ -113,11 +113,11 @@ UPose* go_to_golfball(float ball_x,float ball_y){
 	
 	PointToPoint goToTest;
 		
-	endpose->x = ball_x - ARM_LENGTH*cos(angle);
-	endpose->y = ball_y - ARM_LENGTH*sin(angle);
-	endpose->h = angle;
-	goToTest.goToPoint(&startpose, endpose, 0.1, 0.5);
-	return endpose;
+	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
+	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
+	curr_pose->h = angle;
+	goToTest.goToPoint(&startpose, curr_pose, 0.1, 0.5);
+	
 }
 
 void capture_ball()
