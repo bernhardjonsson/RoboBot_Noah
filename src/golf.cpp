@@ -188,8 +188,8 @@ void minigolf_test(){
 	
 	printf("want  to go to (hole):\n");
 	cout << "x : " + to_string(goto_pose.x) << endl;
-    cout << "y : " + to_string(goto_pose.x) << endl;
-    cout << "h : " + to_string(goto_pose.x) << endl;
+    cout << "y : " + to_string(goto_pose.y) << endl;
+    cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
 	p2p.goToPoint(&localpose, &goto_pose, 0.1, 0.5);
