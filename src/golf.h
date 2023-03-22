@@ -19,5 +19,6 @@ void run_mini_golf();
 void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose);
 void capture_ball();
 bool InHole(Pos ball);
+void minigolf_test();
 
 #endif

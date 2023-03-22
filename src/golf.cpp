@@ -129,6 +129,37 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	
 }
 
+void minigolf_test(){
+	Pos cur_ball;
+	float angle;
+	UPose* curr_pose = new UPose();
+
+	curr_pose->x = 0;
+	curr_pose->y = 0;
+	curr_pose->h = 0;
+	
+	printf("Performing run 1");
+	vision.processImage(20);
+	
+	printf("balls arrays:\n")
+	vision.printArray(vision.ball_x,6);
+	vision.printArray(vision.ball_y,6);
+	// extract current golf ball position
+	printf("current ball coordinates\n")
+	cur_ball.x = vision.ball_x[i];
+	cur_ball.y = vision.ball_y[i];
+	
+	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose)
+	printf("robot now at:\n")
+	cout << "x : " + to_string(curr_pose->x) << endl;
+    cout << "y : " + to_string(curr_pose->y) << endl;
+    cout << "h : " + to_string(curr_pose->h) << endl;
+	
+	
+
+}
+
+
 void capture_ball()
 {
 	// capture the golf ball
