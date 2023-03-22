@@ -125,6 +125,14 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
 	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
 	curr_pose->h = angle;
+	
+	printf("want  to go to (ball):\n");
+	cout << "x : " + to_string(curr_pose->x) << endl;
+    cout << "y : " + to_string(curr_pose->x) << endl;
+    cout << "h : " + to_string(curr_pose->x) << endl;
+	printf("\n");
+	
+	
 	goToTest.goToPoint(&startpose,curr_pose, 0.1, 0.5);
 	
 }
@@ -163,7 +171,7 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
-	PointToPoint p2p;
+	/*PointToPoint p2p;
 	UPose endpose;
 
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
@@ -171,13 +179,13 @@ void minigolf_test(){
 	endpose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle)- curr_pose->y;
 	endpose.h = angle;
 	
-	printf("want  to go to:\n");
+	printf("want  to go to (hole):\n");
 	cout << "x : " + to_string(endpose.x) << endl;
     cout << "y : " + to_string(endpose.y) << endl;
     cout << "h : " + to_string(endpose.h) << endl;
 	printf("\n");
 	
-	p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);
+	p2p.goToPoint(curr_pose, &endpose, 0.1, 0.5);*/
 	
 	
 	
