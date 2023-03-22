@@ -160,7 +160,7 @@ void minigolf_test(){
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
 	endpose.x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle)- curr_pose->x
 	endpose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle)- curr_pose->y
-	endpose.h = angle - curr_pose.h;
+	endpose.h = angle;
 	
 	p2p.goToPoint(curr_pose, &endpose 0.1, 0.5);
 	
