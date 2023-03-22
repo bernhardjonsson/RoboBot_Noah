@@ -37,7 +37,7 @@ void run_golf_seesaw(){
 void run_mini_golf(){
 	Pos cur_ball;
 	float angle;
-	UPose* curr_pose;
+	UPose* curr_pose = new UPose();
 
 	curr_pose->x = 0;
 	curr_pose->y = 0;
