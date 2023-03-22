@@ -162,7 +162,7 @@ void minigolf_test(){
 	
 	printf("going to ball\n");
 
-	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose);
+	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose); // updates curr_pose
 	
 	printf("robot now at:\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
@@ -177,11 +177,13 @@ void minigolf_test(){
 	localpose.x = 0;
 	localpose.y = 0;
 	localpose.h = 0;
+	
+	UPose goto_pose;
 
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
-	curr_pose->x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle)- curr_pose->x;
-	curr_pose->y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle)- curr_pose->y;
-	curr_pose->h = angle;
+	goto_pose->x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle);//- curr_pose->x;
+	goto_pose->y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle);//- curr_pose->y;
+	goto_pose->h = angle;
 	
 	printf("want  to go to (hole):\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
@@ -189,12 +191,15 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
-	p2p.goToPoint(&localpose, curr_pose, 0.1, 0.5);
+	p2p.goToPointWorldCoordinates(curr_pose,&goto_pose, 0.1, 0.5);
+	curr_pose->x  = goto_pose.x;
+	curr_pose->y  = goto_pose.y;
+	curr_pose->h  = goto_pose.h;
 	
 	angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
-	curr_pose->x =  0 - curr_pose->x;
-	curr_pose->y = 0 - curr_pose->y;
-	curr_pose->h = angle;
+	goto_pose.x =  0 - curr_pose->x;
+	goto_pose.x = 0 - curr_pose->y;
+	goto_pose.x = angle;
 	
 	printf("want  to go to (origin):\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
@@ -202,7 +207,7 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
-	p2p.goToPoint(&localpose,curr_pose, 0.1, 0.5);
+	p2p.goToPoint(curr_pose,&goto_pose, 0.1, 0.5);
 	
 	
 	
