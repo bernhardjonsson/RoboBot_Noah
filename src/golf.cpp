@@ -181,9 +181,9 @@ void minigolf_test(){
 	UPose goto_pose;
 
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
-	goto_pose->x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle);//- curr_pose->x;
-	goto_pose->y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle);//- curr_pose->y;
-	goto_pose->h = angle;
+	goto_pose.x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle);//- curr_pose->x;
+	goto_pose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle);//- curr_pose->y;
+	goto_pose.h = angle;
 	
 	printf("want  to go to (hole):\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
