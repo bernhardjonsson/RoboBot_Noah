@@ -221,7 +221,7 @@ bool UVision::processImage(float seconds)
           { // test if the ball is on the floor
             ballProjectionAndTest();
 			// sort distances in ascending order
-            selectionSort(ball_x, ball_y,N_GOLF_BALLS);
+            //selectionSort(ball_x, ball_y,N_GOLF_BALLS);
           }
         }
         frameCnt++;
