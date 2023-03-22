@@ -131,7 +131,7 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 
 void minigolf_test(){
 	Pos cur_ball;
-	//float angle;
+	float angle;
 	UPose* curr_pose = new UPose();
 
 	curr_pose->x = 0;
@@ -156,7 +156,8 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	
 	PointToPoint p2p;
-	
+	UPose endpose;
+
 	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x);
 	endpose.x =  MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle)- curr_pose->x
 	endpose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle)- curr_pose->y
