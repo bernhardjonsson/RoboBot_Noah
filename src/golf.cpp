@@ -55,7 +55,7 @@ void run_mini_golf(){
 				// extract current golf ball position
 				cur_ball.x = vision.ball_x[i];
 				cur_ball.y = vision.ball_y[i];
-
+				if(curr_ball.x != 0 && curr_ball.y != 0){
 				// calculate if ball is not in hole
 				printf("Working with ball in pos: (%.3f,%.3f)\n", cur_ball.x,cur_ball.y);
 				if (InHole(cur_ball) == false){
@@ -96,7 +96,9 @@ void run_mini_golf(){
 					// when golf ball is in hole go to orgini and repeat
 					break;
 				}
+				
 				printf("Current golf ball in hole !\n");
+				}
 			}
 		}
 	}
