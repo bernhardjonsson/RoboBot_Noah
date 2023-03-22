@@ -197,10 +197,18 @@ void minigolf_test(){
 	curr_pose->y  = goto_pose.y + curr_pose->y;
 	curr_pose->h  = goto_pose.h;
 	
+	printf("vector to origin :\n");
+	cout << "x : " + to_string(curr_pose->x) << endl;
+    cout << "y : " + to_string(curr_pose->y) << endl;
+    cout << "h : " + to_string(curr_pose->h) << endl;
+	printf("\n");
+	
 	angle = atan2(0 - curr_pose->y, 0 - curr_pose->x);
 	goto_pose.x =  0 - curr_pose->x;
 	goto_pose.x = 0 - curr_pose->y;
 	goto_pose.x = angle;
+	
+	
 	
 	printf("want  to go to (origin):\n");
 	cout << "x : " + to_string(goto_pose.x) << endl;
