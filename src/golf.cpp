@@ -128,8 +128,8 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	
 	printf("want  to go to (ball):\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
-    cout << "y : " + to_string(curr_pose->x) << endl;
-    cout << "h : " + to_string(curr_pose->x) << endl;
+    cout << "y : " + to_string(curr_pose->y) << endl;
+    cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
 	
