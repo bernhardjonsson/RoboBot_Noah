@@ -15,11 +15,16 @@ using namespace std;
 
 
 void run_golf_seesaw(){
+	UPose* curr_pose;
+
+	curr_pose->x = 0;
+	curr_pose->y = 0;
+	curr_pose->h = 0;
 
 	vision.processImage(20);
 	if(vision.ball_found == true){
 
-		go_to_golfball(vision.ball_x[0],vision.ball_y[0]);
+		go_to_golfball(vision.ball_x[0],vision.ball_y[0], curr_pose);
     	// capture the golf ball
 		capture_ball();
 
