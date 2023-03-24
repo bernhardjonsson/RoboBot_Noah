@@ -4,6 +4,7 @@
 #define MINIGOLF_HOLE_X 1.2
 #define MINIGOLF_HOLE_Y 0.33
 #define ARM_LENGTH 0.48
+#define PI 3.142
 
 #include "uvision.h"
 #include "upose.h"

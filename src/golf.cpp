@@ -178,7 +178,7 @@ void minigolf_test(){
 	UPose goto_pose;
 	
 	// calculate hole pose
-	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x) - 90 + curr_pose->h;
+	angle = atan2(MINIGOLF_HOLE_Y - curr_pose->y, MINIGOLF_HOLE_X - curr_pose->x) - PI/2 + curr_pose->h;
 	goto_pose.x = MINIGOLF_HOLE_X - ARM_LENGTH*cos(angle);
 	goto_pose.y = MINIGOLF_HOLE_Y - ARM_LENGTH*sin(angle);
 	goto_pose.h = angle;
