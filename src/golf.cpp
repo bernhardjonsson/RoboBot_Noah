@@ -15,12 +15,21 @@ using namespace std;
 
 
 void run_golf_seesaw(){
-	UPose* curr_pose = new UPose();
+	PointToPoint goToBalance;
+  	UPose targetPose;
+  	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h =  1.2217;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+  	FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
+  	missionStartBalance.runMission();
 
-	curr_pose->x = 0;
-	curr_pose->y = 0;
-	curr_pose->h = 0;
-
+  	targetPose.x = 0.3;
+  	targetPose.y = 0;
+  	targetPose.h = 0;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+  
+  	// Golf ball mission
 	vision.processImage(20);
 	if(vision.ball_found == true){
 
@@ -28,6 +37,41 @@ void run_golf_seesaw(){
     	// capture the golf ball
 		capture_ball();
 	}
+
+	rightOrLeft = 1;
+  	vel = 0.3;
+  	FollowLine missionEndBalance(vel, acc, level, 1.5, rightOrLeft);
+  	missionEndBalance.runMission();
+
+  	// Wait until balance is down
+   	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd vel=0.0:time=5\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+
+  	FollowLine missionEndBalance2(vel, acc, level, 1, rightOrLeft);
+  	missionEndBalance2.runMission();
+
+  	targetPose.x = 1;
+  	targetPose.y = 0;
+  	targetPose.h = -PI/2;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+
+  	targetPose.x = 5;
+  	targetPose.y = 0;
+  	targetPose.h = 0;
+  	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+
+  	targetPose.x = 0.2;
+  	targetPose.y = 0;
+  	targetPose.h = 0;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
+
+  	targetPose.x = 5;
+  	targetPose.y = 0;
+  	targetPose.h = -1.2217;
+  	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
 }
 
 
