@@ -47,7 +47,7 @@ void PointToPoint::goToPointWorldCoordinates(UPose* currentPose,UPose* targetPos
     UPose targetPoseRobotFrame;
     targetPoseRobotFrame.x = cos(currentPose->h)*(targetPose->x - currentPose->x) + sin(currentPose->h)*(targetPose->y - currentPose->x);
     targetPoseRobotFrame.y = -sin(currentPose->h)*(targetPose->x - currentPose->y) + cos(currentPose->h)*(targetPose->y - currentPose->y);
-    targetPoseRobotFrame.h = targetPose->h - currentPose->h;
+    targetPoseRobotFrame.h = targetPose->h + currentPose->h;
     currentPose->x = 0;
     currentPose->y = 0;
     currentPose->h = 0;

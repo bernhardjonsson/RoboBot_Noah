@@ -233,7 +233,7 @@ void minigolf_test(){
     cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
-	p2p.goToPointWorldCoordinates(&curr_posepose, &goto_pose, 0.1, 0.5);
+	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5);
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
