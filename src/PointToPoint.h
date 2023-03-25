@@ -21,10 +21,11 @@ private:
 public:
     PointToPoint();
     ~PointToPoint();
-    void goToPoint(UPose* currentPose,UPose* targetPose, float speed, float acc);
+    void goToPoint(UPose* currentPose,UPose* targetPose, float speed, float acc, float turningSpeed);
+    void goToPointUntilLineReached(UPose* targetPose, float speed, float acc, float turningSpeed);
     void goToPointWorldCoordinates(UPose* currentPose,UPose* targetPose, float speed, float acc);
 };
 
-extern PointToPoint pointtest;
+
 
 #endif

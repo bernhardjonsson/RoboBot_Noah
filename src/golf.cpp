@@ -122,7 +122,7 @@ void run_mini_golf(){
 					endpose.h = angle;
 					printf("Robot at pose: (%.3f,%.3f,%.3f) in world frame\n", curr_pose->x,curr_pose->y,curr_pose->h);
 					printf("Going to hole: (%.3f,%.3f) in world frame, (%.3f,%.3f) in robot frame\n", MINIGOLF_HOLE_X,MINIGOLF_HOLE_Y,endpose.x,endpose.y);
-					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5,0.3);
 					curr_pose = &endpose;
 
 					// release ball
@@ -139,7 +139,7 @@ void run_mini_golf(){
 					endpose.y = 0; //- curr_pose->y - ARM_LENGTH*sin(angle);
 					endpose.h = 0;//angle;
 					printf("Going to origin, (%.3f,%.3f) in robot frame\n",endpose.x,endpose.y);
-					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5);
+					p2p.goToPointWorldCoordinates(curr_pose, &endpose, 0.1, 0.5,0.3);
 					curr_pose = &endpose;
 					// when golf ball is in hole go to orgini and repeat
 					break;
@@ -181,7 +181,7 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	printf("\n");
 	
 	
-	goToTest.goToPoint(&startpose,curr_pose, 0.1, 0.5);
+	goToTest.goToPoint(&startpose,curr_pose, 0.1, 0.5,0.3);
 	
 }
 
@@ -240,7 +240,7 @@ void minigolf_test(){
     cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
-	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5);
+	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5,0.3);
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
@@ -263,7 +263,7 @@ void minigolf_test(){
     cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
-	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5);
+	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5,0.3);
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
