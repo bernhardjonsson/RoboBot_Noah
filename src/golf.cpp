@@ -9,12 +9,19 @@
 #include "uvision.h"
 #include "upose.h"
 #include "golf.h"
+#include "FollowLine.h"
 
 using namespace std;
 
 
 
 void run_golf_seesaw(){
+	float vel = 0.5;
+  	float acc = 0.8; 
+  	int level = 12; 
+  	float distance = 10; 
+  	bool rightOrLeft = 0;
+
 	PointToPoint goToBalance;
   	UPose targetPose;
   	targetPose.x = 0;
