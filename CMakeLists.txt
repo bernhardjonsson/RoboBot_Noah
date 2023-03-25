@@ -21,7 +21,8 @@ add_executable(mission main.cpp
                             src/uevent.cpp
                             src/ujoy.cpp
                             src/PointToPoint.cpp
-							src/golf.cpp
+			    src/golf.cpp
+			    src/FollowLine.cpp
 			    )
 
 target_link_libraries(mission ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
