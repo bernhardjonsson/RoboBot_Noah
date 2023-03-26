@@ -86,9 +86,10 @@ int main(int argc, char **argv)
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
         
-    //run_golf_seesaw();
+   //run_golf_seesaw();
 	//run_mini_golf();
 	minigolf_test();
+	
     std::cout << "# Robobot mission finished ...\n";
 
 
