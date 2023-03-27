@@ -22,6 +22,8 @@ void run_golf_seesaw(){
   	//float distance = 10; 
   	bool rightOrLeft = 0;
 
+  	// Start at the cross section
+  	// Turn to seesaw
 	PointToPoint goToBalance;
   	UPose targetPose;
   	targetPose.x = 0;
@@ -31,12 +33,14 @@ void run_golf_seesaw(){
   	FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
   	missionStartBalance.runMission();
 
+
+  	// Go onto seesaw
   	targetPose.x = 0.3;
   	targetPose.y = 0;
   	targetPose.h = 0;
   	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
   
-  	// Golf ball mission
+  	// Find and get golf ball
 	vision.processImage(20);
 	if(vision.ball_found == true){
 		UPose* curr_pose;
@@ -48,6 +52,7 @@ void run_golf_seesaw(){
 		capture_ball();
 	}
 
+	// Go down seesaw
 	rightOrLeft = 1;
   	vel = 0.3;
   	FollowLine missionEndBalance(vel, acc, level, 1.5, rightOrLeft);
@@ -63,6 +68,8 @@ void run_golf_seesaw(){
   	FollowLine missionEndBalance2(vel, acc, level, 1, rightOrLeft);
   	missionEndBalance2.runMission();
 
+
+  	// Find the line up the incline
   	targetPose.x = 1;
   	targetPose.y = 0;
   	targetPose.h = -PI/2;
@@ -82,6 +89,9 @@ void run_golf_seesaw(){
   	targetPose.y = 0;
   	targetPose.h = -1.2217;
   	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+
+  	
+
 }
 
 
