@@ -16,41 +16,38 @@ using namespace std;
 
 
 void run_golf_seesaw(){
-	float vel = 0.5;
+	float vel = 0.2;
   	float acc = 0.8; 
   	int level = 12; 
   	//float distance = 10; 
   	bool rightOrLeft = 0;
 
+	//vision.processImage(20);
   	// Start at the cross section
   	// Turn to seesaw
+	cout << "Turning to seesaw" << endl;
 	PointToPoint goToBalance;
   	UPose targetPose;
   	targetPose.x = 0;
   	targetPose.y = 0;
   	targetPose.h =  1.2217;
-  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
-  	FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
+  	
+	FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
   	missionStartBalance.runMission();
 
 
   	// Go onto seesaw
+	cout << "Going onto seesaw" << endl;
   	targetPose.x = 0.3;
   	targetPose.y = 0;
   	targetPose.h = 0;
+	vel = 0.2;
   	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
-  
-  	// Find and get golf ball
-	vision.processImage(20);
-	if(vision.ball_found == true){
-		UPose* curr_pose;
-		curr_pose->x = 0;
-		curr_pose->y = 0;
-		curr_pose->h = 0;
-		go_to_golfball(vision.ball_x[0],vision.ball_y[0], curr_pose);
-    	// capture the golf ball
-		capture_ball();
-	}
+	FollowLine missionGoToBall(vel, acc, level, 0.785, rightOrLeft);
+  	missionGoToBall.runMission();
+
+	capture_ball();
 
 	// Go down seesaw
 	rightOrLeft = 1;
@@ -70,28 +67,72 @@ void run_golf_seesaw(){
 
 
   	// Find the line up the incline
-  	targetPose.x = 1;
-  	targetPose.y = 0;
-  	targetPose.h = -PI/2;
-  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
-
   	targetPose.x = 5;
   	targetPose.y = 0;
   	targetPose.h = 0;
   	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
 
-  	targetPose.x = 0.2;
+	
+	PointToPoint goTo1;
+  	targetPose.x = 0;
   	targetPose.y = 0;
-  	targetPose.h = 0;
-  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
-
-  	targetPose.x = 5;
-  	targetPose.y = 0;
-  	targetPose.h = -1.2217;
-  	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
-
+  	targetPose.h =  -1*PI/2;
+  	goTo1.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+  	FollowLine mission3(vel, acc, level, 1.75, rightOrLeft);
+  	mission3.runMission();
   	
+	targetPose.x = 5;
+  	targetPose.y = 0;
+  	targetPose.h = 0;
+  	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+	mission3.runMission();
 
+
+	PointToPoint goTo2;
+  	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h =  PI;
+  	goTo2.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=-20,vservo=125:time=5\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+	
+	FollowLine mission4(vel,acc,level,2,0);
+	mission4.runMission();
+
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd log=10: time=0.05\n");
+	bridge.tx("regbot madd vel=0.3, acc=0.3, edgel=0.2, white=1: tilt<0.2, lv>12\n");
+	bridge.tx("regbot madd edgel=0.2,white=1:tilt<0.2,lv<12\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+  
+		
+	PointToPoint goTo3;
+  	targetPose.x = 0.44;
+  	targetPose.y = 0.055;
+  	targetPose.h = 0;
+	vel = 0.15;
+  	goTo3.goToPoint(&pose,&targetPose,vel,acc,0.2);
+
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd log=10: time=0.05\n");
+	bridge.tx("regbot madd label=10, vel=0.0: time=0.05\n");
+	bridge.tx("regbot madd vel=0.1, tr=0.0: turn=-45\n");
+	bridge.tx("regbot madd vel=0.0: time=0.05\n");
+	bridge.tx("regbot madd vel=0.1, tr=0.0: turn=90\n");
+	bridge.tx("regbot madd vel=0.0: time=0.05\n");
+	bridge.tx("regbot madd vel=0.1, tr=0.0: turn=-45\n");
+	bridge.tx("regbot madd vel=0.1, acc=0.3: dist=0.01\n");
+	bridge.tx("regbot madd goto=10: count=3\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
 }
 
 
@@ -302,7 +343,7 @@ void capture_ball()
 	// capture the golf ball
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=10\n");
+	bridge.tx("regbot madd servo=1,pservo=50,vservo=125:time=10\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 }

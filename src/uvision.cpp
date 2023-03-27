@@ -39,7 +39,7 @@ void UVision::setup(int argc, char **argv)
 { /// Setup camera and start streaming
   // open the default camera using default API
   // and select any API backend
-  int dev = 0;
+  int dev = 1;
   //printf("Setting up vision\n");
   //
   // decode any debug parameters
@@ -172,7 +172,8 @@ bool UVision::getNewestFrame()
 
 bool UVision::processImage(float seconds)
 { // process images in 'seconds' seconds
-  ball_found = false;
+  terminate = 0;
+	ball_found = false;
   UTime t, t2, t3, t4; // for timing
   t.now();
   int n = 0;
