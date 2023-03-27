@@ -12,7 +12,7 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     cout << "h : " + to_string(currentPose->h) << endl;
 
     //float dist = computeDistance(currentPose, targetPose);
-    dist = sqrt(targetPose->x * targetPose->x + targetPose->y*targetPose->y);
+    float dist = sqrt(targetPose->x * targetPose->x + targetPose->y*targetPose->y);
 
     float alpha = atan2(targetPose->y,targetPose->x);
 
@@ -83,9 +83,10 @@ void PointToPoint::goToPointWorldCoordinates(UPose* currentPose,UPose* targetPos
     currentPose->x = 0;
     currentPose->y = 0;
     currentPose->h = 0;
-    cout << "x : " + to_string(targetPoseRobotFrame->x) << endl;
-    cout << "y : " + to_string(targetPoseRobotFrame->y) << endl;
-    cout << "h : " + to_string(targetPoseRobotFrame->h) << endl;
+    cout << "Target pose in RobotFrame" << endl;
+    cout << "x : " + to_string(targetPoseRobotFrame.x) << endl;
+    cout << "y : " + to_string(targetPoseRobotFrame.y) << endl;
+    cout << "h : " + to_string(targetPoseRobotFrame.h) << endl;
     goToPoint(currentPose,&targetPoseRobotFrame,speed,acc,0.3);
 }
 

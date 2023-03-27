@@ -214,8 +214,8 @@ void minigolf_test(){
 	vision.printArray(vision.ball_y,6);
 	// extract current golf ball position
 	
-	cur_ball.x = 1.5;//vision.ball_x[0];
-	cur_ball.y = -0.5;//vision.ball_y[0];
+	cur_ball.x = vision.ball_x[0];
+	cur_ball.y = vision.ball_y[0];
 	
 	printf("current ball coordinates\n");
 	cout << "x : " + to_string(cur_ball.x) << endl;
@@ -224,7 +224,7 @@ void minigolf_test(){
 	printf("going to ball\n");
 
 	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose); // updates curr_pose
-	
+	capture_ball();	
 	printf("robot now at:\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
     cout << "y : " + to_string(curr_pose->y) << endl;
@@ -254,6 +254,15 @@ void minigolf_test(){
 	printf("\n");
 	
 	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5);
+
+	// release ball
+	printf("Releasing golf ball\n");
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=10\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+	
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
@@ -280,7 +289,6 @@ void minigolf_test(){
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
-	
 	
 	
 	
