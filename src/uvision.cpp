@@ -423,7 +423,7 @@ void UVision::ballProjectionAndTest()
     {
       printf("---\n");
       cv::Rect bb = ballBoundingBox[i];
-      float diaPix = std::max(bb.width, bb.height);
+      float diaPix = bb.width;//std::max(bb.width, bb.height);
       /// use focal length to find distance
       //       diaPix    golfDia
       //       ------ = --------
