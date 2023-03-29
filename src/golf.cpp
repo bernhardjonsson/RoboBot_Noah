@@ -327,38 +327,8 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	printf("\n");
 	
 	
-	goToTest.goToPointWorldCoordinates(&startpose,curr_pose, 0.1, 0.5,0.3);
+	goToTest.goToPointWorldCoordinates(&startpose,curr_pose, 0.1, 0.5);
 
-	printf("Scan for the golf ball again");
-	vision.processImage(20);
-	
-	printf("balls arrays:\n");
-	vision.printArray(vision.ball_x,6);
-	vision.printArray(vision.ball_y,6);
-	// extract current golf ball position
-	
-	cur_ball.x = vision.ball_x[0];
-	cur_ball.y = vision.ball_y[0];
-	printf("current ball coordinates\n");
-	cout << "x : " + to_string(cur_ball.x) << endl;
-    cout << "y : " + to_string(cur_ball.y) << endl;
-
-    // calc robot to world frame
-    startpose.x = curr_pose->x;
-	startpose.y = curr_pose->y;
-	startpose.h = curr_pose->h;
-
-	// achivable pos in robot frame
-	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
-	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
-	curr_pose->h = angle;
-
-	// convert to world frame
-	targetPoseRobotFrame.x = cos(currentPose->h)*currentPose->x - sin(currentPose->h)*currentPose->y + startpose.x;
-    targetPoseRobotFrame.y = sin(currentPose->h)*currentPose->x + cos(currentPose->h)*currentPose->y + startpose.y;
-    targetPoseRobotFrame.h = atan2(targetPoseRobotFrame.y,targetPoseRobotFrame.x);
-    goToTest.goToPointWorldCoordinates(&startpose,curr_pose, 0.1, 0.5,0.3);
-	
 }
 
 void minigolf_test(){
@@ -486,7 +456,7 @@ void minigolf_test(){
     	Origin.runMission();
   	targetPose.x = 0;
   	targetPose.y = 0;
-  	targetPose.h =  -PI/2;
+  	targetPose.h =  -2.1;
 	goToOrigin.goToPoint(&pose,&targetPose,vel,acc,0.2);
 }
 
