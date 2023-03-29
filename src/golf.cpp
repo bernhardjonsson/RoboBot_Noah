@@ -19,7 +19,7 @@ void run_golf_seesaw(){
 	float vel = 0.2;
   	float acc = 0.8; 
   	int level = 12; 
-  	//float distance = 10; 
+  	float distance = 10; 
   	bool rightOrLeft = 0;
 
   	// Start at the cross section
@@ -138,7 +138,13 @@ void run_golf_seesaw(){
 	bridge.tx("regbot madd vel=0.0: time=0.05\n");
 	bridge.tx("regbot madd vel=0.1, tr=0.0: turn=-45\n");
 	bridge.tx("regbot madd vel=0.1, acc=0.3: dist=0.01\n");
-	bridge.tx("regbot madd goto=10: count=3\n");
+	bridge.tx("regbot madd goto=10: count=2\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+	
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=2\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 
@@ -146,49 +152,49 @@ void run_golf_seesaw(){
 	// turn to line
   	targetPose.x = 0;
   	targetPose.y = 0;
-  	targetPose.h =  -2.1;
-  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
+  	targetPose.h =  -2.8;
+	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
   	// going to line
   	targetPose.x = 1;
   	targetPose.y = 0;
   	targetPose.h = 0;
-  	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
+  	vel = 0.5;
+	goToBalance.goToPointUntilLineReached(&targetPose,vel,acc,0.2);
 
   	cout << "Going to crossing line" << endl;
   	// turning left
   	targetPose.x = 0;
   	targetPose.y = 0;
-  	targetPose.h =  PI/2;
+  	targetPose.h =  1.22;
   	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
 
   	// go to crossing
+	rightOrLeft = 1;
   	FollowLine mission5(vel, acc, level, distance, rightOrLeft,1);
     mission5.runMission();
 
-    // turn back
-    targetPose.x = 0;
-  	targetPose.y = 0;
-  	targetPose.h =  PI;
-  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
-
-  	cout << "Stoping at correct tilt" << endl;
-	bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd log=10: time=0.05\n");
-	bridge.tx("regbot madd vel=0.3, acc=0.3, edgel=0.2, white=1: tilt<0.2, lv>12\n");
-	bridge.tx("regbot madd edgel=0.2,white=1:tilt<0.2,lv<12\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
-
-	/*
-	cout << "Putting ball in hole" << endl;
-	PointToPoint goTo3;
-  	targetPose.x = 0.44;
-  	targetPose.y = 0.055;
+	
+	cout << "Getting seccond ball" << endl;
+  	targetPose.x = -0.215;
+  	targetPose.y = -0.41;
   	targetPose.h = 0;
 	vel = 0.15;
   	goTo3.goToPoint(&pose,&targetPose,vel,acc,0.2);
-
+	capture_ball();	
+    	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h =  -1*PI;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+	cout << "Going to hole" << endl;	
+  	targetPose.x = 0.52;
+  	targetPose.y = -0.1;
+  	targetPose.h = 0;
+	vel = 0.15;
+  	goTo3.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+	
+	
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
 	bridge.tx("regbot madd log=10: time=0.05\n");
@@ -199,11 +205,25 @@ void run_golf_seesaw(){
 	bridge.tx("regbot madd vel=0.0: time=0.05\n");
 	bridge.tx("regbot madd vel=0.1, tr=0.0: turn=-45\n");
 	bridge.tx("regbot madd vel=0.1, acc=0.3: dist=0.01\n");
-	bridge.tx("regbot madd goto=10: count=3\n");
+	bridge.tx("regbot madd goto=10: count=2\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
-*/
 
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=2\n");
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+
+	cout << "Going to start point" << endl;
+    	targetPose.x = -0.1;
+  	targetPose.y = 0;
+  	targetPose.h = -2*PI/3;
+  	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
+
+	cout << "Following line" << endl;
+    	mission5.runMission();
+	mission5.runMission();
 
 }
 

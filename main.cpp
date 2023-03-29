@@ -86,7 +86,7 @@ int main(int argc, char **argv)
   if (setup(argc, argv))
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
-    PointToPoint goToBalance;
+    /*PointToPoint goToBalance;
     UPose targetPose;
     float vel = 0.5;
     float acc = 0.8; 
@@ -97,10 +97,9 @@ int main(int argc, char **argv)
     distance = 10;
     FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
     missionSecondpart.runMission();     
-  
-    run_golf_seesaw();
+   */// run_golf_seesaw();
 	//run_mini_golf();
-	//minigolf_test();
+minigolf_test();
 	
     std::cout << "# Robobot mission finished ...\n";
 
