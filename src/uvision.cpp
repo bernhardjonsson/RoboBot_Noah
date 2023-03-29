@@ -39,7 +39,7 @@ void UVision::setup(int argc, char **argv)
 { /// Setup camera and start streaming
   // open the default camera using default API
   // and select any API backend
-  int dev = 1;
+  int dev = 0;
   //printf("Setting up vision\n");
   //
   // decode any debug parameters

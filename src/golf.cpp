@@ -332,6 +332,12 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 }
 
 void minigolf_test(){
+	float vel = 0.2;
+  	float acc = 0.8; 
+  	int level = 12; 
+  	float distance = 10; 
+  	bool rightOrLeft = 0;
+  	UPose targetPose;
 	Pos cur_ball;
 	UPose* curr_pose = new UPose();
 
@@ -349,7 +355,6 @@ void minigolf_test(){
 	
 	cur_ball.x = vision.ball_x[0];
 	cur_ball.y = vision.ball_y[0];
-	
 	printf("current ball coordinates\n");
 	cout << "x : " + to_string(cur_ball.x) << endl;
     cout << "y : " + to_string(cur_ball.y) << endl;
@@ -392,7 +397,7 @@ void minigolf_test(){
 	printf("Releasing golf ball\n");
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=10\n");
+	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=1\n");
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 	
@@ -406,27 +411,53 @@ void minigolf_test(){
     cout << "h : " + to_string(curr_pose->h) << endl;
 	printf("\n");
 	
-	goto_pose.x = 0;
-	goto_pose.y = 0;
+	goto_pose.x = 0.3;
+	goto_pose.y = -0.5;
 	goto_pose.h = 0;
 	
 	
 	
 	printf("want  to go to (origin):\n");
 	cout << "x : " + to_string(goto_pose.x) << endl;
-    cout << "y : " + to_string(goto_pose.y) << endl;
-    cout << "h : " + to_string(goto_pose.h) << endl;
+    	cout << "y : " + to_string(goto_pose.y) << endl;
+    	cout << "h : " + to_string(goto_pose.h) << endl;
 	printf("\n");
 	
 	p2p.goToPointWorldCoordinates(curr_pose, &goto_pose, 0.1, 0.5);
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
 	curr_pose->h  = goto_pose.h;
-	
-	
-	
+	printf("current pose :\n");
+	cout << "x : " + to_string(curr_pose->x) << endl;
+    	cout << "y : " + to_string(curr_pose->y) << endl;
+    	cout << "h : " + to_string(curr_pose->h) << endl;
+	printf("\n");
 	
 
+	PointToPoint goToOrigin;
+  	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h = -0.9;
+	goToOrigin.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+  	targetPose.x = 5;
+  	targetPose.y = 0;
+  	targetPose.h = 0;
+  	goToOrigin.goToPointUntilLineReached(&targetPose,0.4,acc,0.2);
+	
+	
+  	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h = -PI/2;
+	goToOrigin.goToPoint(&pose,&targetPose,vel,acc,0.2);
+	
+	cout << "Following line " << endl;
+  	FollowLine Origin(vel, acc, level, distance, rightOrLeft);
+    	Origin.runMission();
+  	targetPose.x = 0;
+  	targetPose.y = 0;
+  	targetPose.h =  -PI/2;
+	goToOrigin.goToPoint(&pose,&targetPose,vel,acc,0.2);
 }
 
 
