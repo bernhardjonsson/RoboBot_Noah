@@ -429,14 +429,18 @@ void UVision::ballProjectionAndTest()
       //       ------ = --------
       //          f        x
       // f = focal length, x = distance to ball
-      float dist = golfBallDiameter * focalLength / float(diaPix);
+	  
+	  float focalLength_x = 772.411865234375;
+	  float focalLength_y = 777.87646484375;
+	  
+      float dist = golfBallDiameter * focalLength_x / float(diaPix);
       // the position in x (right) and y (down)
       float bbCenter[2] = {bb.x + bb.width/2.0f, bb.y + bb.height/2.0f};
       float frameCenter[2] = {frame.cols/2.0f, frame.rows/2.0f};
       // distance right of image center line - in meters
-      float x = (bbCenter[0] - frameCenter[0])/focalLength * dist;
+      float x = (bbCenter[0] - frameCenter[0])/focalLength_x * dist;
       // distance below image center line - in meters
-      float y = (bbCenter[1] - frameCenter[1])/focalLength * dist;
+      float y = (bbCenter[1] - frameCenter[1])/focalLength_y * dist;
       // make a vector of ball center with (x=forward, y=left, z=up)
       cv::Vec4f pos3dcam(dist, -x, -y, 1.0f);
       printf("# ball %d position in cam   coordinates (x,y,z)=(%.2f, %.2f, %.2f)\n", i, 
