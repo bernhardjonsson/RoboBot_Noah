@@ -315,15 +315,16 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	startpose.h = curr_pose->h;
 	
 	PointToPoint goToTest;
+	UPose* targetPose
 
 	// position in robot frame
-	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
-	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
-	curr_pose->h = angle;
+	targetPose->x = ball_x - ARM_LENGTH*cos(angle);
+	targetPose->y = ball_y - ARM_LENGTH*sin(angle);
+	targetPose->h = angle;
 
 	// translate to world frame
-	curr_pose->x = cos(startpose.h)*(curr_pose->x) - sin(startpose.h)*(curr_pose->y) + startpose.x;
-	curr_pose->y = sin(startpose.h)*(curr_pose->x) + cos(startpose.h)*(curr_pose->y) + startpose.y;
+	curr_pose->x = cos(startpose.h)*(targetPose->x) - sin(startpose.h)*(targetPose->y) + startpose.x;
+	curr_pose->y = sin(startpose.h)*(targetPose->x) + cos(startpose.h)*(targetPose->y) + startpose.y;
 	curr_pose->h = angle + startpose.h;//atan2(curr_pose->y,curr_pose->x);
 	
 	printf("want  to go to (ball):\n");
