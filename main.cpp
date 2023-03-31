@@ -95,7 +95,7 @@ int main(int argc, char **argv)
     bool rightOrLeft = 0;
     vel = 0.5;
     distance = 10;
-    FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
+    //FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
    // missionSecondpart.runMission();     
    // run_golf_seesaw();
 	//run_mini_golf();

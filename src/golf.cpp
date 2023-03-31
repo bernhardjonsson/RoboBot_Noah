@@ -315,7 +315,7 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	startpose.h = curr_pose->h;
 	
 	PointToPoint goToTest;
-	UPose* targetPose
+	UPose* targetPose = new UPose();
 
 	// position in robot frame
 	targetPose->x = ball_x - ARM_LENGTH*cos(angle);
