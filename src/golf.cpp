@@ -319,6 +319,10 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	curr_pose->x = ball_x - ARM_LENGTH*cos(angle);
 	curr_pose->y = ball_y - ARM_LENGTH*sin(angle);
 	curr_pose->h = angle;
+
+	curr_pose->x = cos(startpose.h)*(curr_pose->x) - sin(startpose.h)*(curr_pose->y) + startpose.x;
+	curr_pose->y = sin(startpose.h)*(curr_pose->x) + cos(startpose.h)*(curr_pose->y) + startpose.y;
+	curr_pose->h = angle + startpose.h;//atan2(curr_pose->y,curr_pose->x);
 	
 	printf("want  to go to (ball):\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
@@ -328,7 +332,6 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	
 	
 	goToTest.goToPointWorldCoordinates(&startpose,curr_pose, 0.1, 0.5);
-
 }
 
 void minigolf_test(){
@@ -362,6 +365,11 @@ void minigolf_test(){
 	printf("going to ball\n");
 
 	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose); // updates curr_pose
+	sleep(1);	
+	vision.processImage(20);
+	cur_ball.x = vision.ball_x[0];
+        cur_ball.y = vision.ball_y[0];
+	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose);
 	capture_ball();	
 	printf("robot now at:\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
@@ -370,6 +378,7 @@ void minigolf_test(){
 	printf("\n");
 	
 	PointToPoint p2p;
+
 	float angle;
 	UPose endpose;
 	UPose localpose;

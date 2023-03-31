@@ -98,7 +98,7 @@ public:
 //                                          -st, 0.f, ct, camPos[2];
 //                                          0.f ,  0.f, 0.f , 1.f);
 void printArray(float array[], int size);
-  
+void terminateVision();  
 private:
   /// buffer for captured image
   cv::Mat frame;
@@ -136,7 +136,6 @@ private:
   cv::Mat yuv_colormask();
   float dist(float x, float y);
   void swap(float *a, float *b);
-  
   void selectionSort(float x[], float y[], int size);
   
 };

@@ -142,7 +142,11 @@ void UVision::loop()
   { // keep framebuffer empty
     if (useFrame)
     { // grab and decode next image
-      cap.read(frame);
+     cap.retrieve(frame); 
+     bool frametest = cap.read(frame);
+     printf("frametest: ");
+     cout<<frametest;
+     printf("\n");
       // mark as available
       gotFrame = not frame.empty();
       useFrame = not gotFrame;
@@ -215,7 +219,7 @@ bool UVision::processImage(float seconds)
 	         }
           t3.now();
           ballBoundingBox.clear();
-          terminate = doFindBall();
+          bool ballterminate = doFindBall();
 					//terminate = false; // for longer debuging
           printf("Find ball took %.3f sec\n", t3.getTimePassed());
           if (ballBoundingBox.size() >= 1)
@@ -234,6 +238,10 @@ bool UVision::processImage(float seconds)
   }
   printf("# Ending vision loop (terminate=%d, camIsOpen=%d, n=%d\n", terminate, camIsOpen, n);
   return terminate or not camIsOpen;
+}
+
+void UVision::terminateVision(){
+	terminate = true;
 }
 
 int UVision::uvDistance(cv::Vec3b pix, cv::Vec3b col)

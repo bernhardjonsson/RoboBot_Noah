@@ -96,11 +96,11 @@ int main(int argc, char **argv)
     vel = 0.5;
     distance = 10;
     FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
-    missionSecondpart.runMission();     
+   // missionSecondpart.runMission();     
    // run_golf_seesaw();
 	//run_mini_golf();
-minigolf_test();
-	
+	minigolf_test();
+	vision.terminateVision();	
     std::cout << "# Robobot mission finished ...\n";
 
 
