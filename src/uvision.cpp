@@ -144,9 +144,9 @@ void UVision::loop()
     { // grab and decode next image
      cap.retrieve(frame); 
      bool frametest = cap.read(frame);
-     printf("frametest: ");
-     cout<<frametest;
-     printf("\n");
+     //printf("frametest: ");
+     //cout<<frametest;
+     //printf("\n");
       // mark as available
       gotFrame = not frame.empty();
       useFrame = not gotFrame;
