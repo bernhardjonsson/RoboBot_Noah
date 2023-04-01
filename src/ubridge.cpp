@@ -32,7 +32,6 @@
 #include "uvision.h"
 #include "uevent.h"
 #include "ujoy.h"
-#include "uirsensor.h"
 
 // create the bridge connection
 UBridge bridge;
@@ -45,7 +44,6 @@ void UBridge::decode(char* msg)
   else if (state.decode(msg)) {}
   else if (event.decode(msg)) {}
   else if (joy.decode(msg)) {}
-  else if (irsensor.decode(msg)){}
   else
     printf("Received, but not used: %s\n", msg);
 }

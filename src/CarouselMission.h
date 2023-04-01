@@ -24,9 +24,6 @@ public:
     void runMission();
     void doSquare();
     void doCircle();
-    void do3rd_Circle(bool last_turn);
-    void goNextGate(float radius);
-    void goLastGate(float radius);
     void goToMiniGolf(string velocity);
     void waitUntilRobot();
 };

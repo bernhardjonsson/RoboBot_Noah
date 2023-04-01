@@ -48,6 +48,7 @@ using namespace std;
 class UVision{
   
 public:
+  static const int N_GOLF_BALLS=6;
   /** setup and request data */
   void setup(int argc, char **argv);
   /** decode an unpacked incoming messages
@@ -67,20 +68,28 @@ public:
   bool terminate = false;
   /// show image to X-terminal
   bool showImage = false;
+  // use yolo for ball detection
+  bool useYolo = true;
   /**
     * images for manual function using slider */
   cv::Mat dest;
   cv::Mat source;
   int slider1;
   int slider2;
+  float ball_x[N_GOLF_BALLS];
+  float ball_y[N_GOLF_BALLS];
+  float ball_z[N_GOLF_BALLS];
+  int detected_balls;
+  bool ball_found = false;
   /**
    * focal length for Sandberg camera in pixels */
-  const int focalLength = 1008;
+  const int focalLength = 1023.78;
+  //const int focalLength = 1540;
   const float golfBallDiameter = 0.043; // meter
   /**
    * camera position in robot coordinates (x (forward), y (left), z (up)) */
-  const float camPos[3] = {0.13,-0.02, 0.23};       // in meters
-  const float camTilt = 22 * M_PI / 180; // in radians
+  const float camPos[3] = {0.13,0.01, 0.23};       // in meters
+  const float camTilt = 20 * M_PI / 180; // in radians
   cv::Mat1f camToRobot;
 //   const float st = sin(camTilt);
 //   const float ct = cos(camTilt);
@@ -88,7 +97,8 @@ public:
 //                                          0.f ,  1.f, 0.f , camPos[1];
 //                                          -st, 0.f, ct, camPos[2];
 //                                          0.f ,  0.f, 0.f , 1.f);
-  
+void printArray(float array[], int size);
+void terminateVision();  
 private:
   /// buffer for captured image
   cv::Mat frame;
@@ -105,7 +115,7 @@ private:
   mutex dataLock;
   //
   //
-  bool findBall = false;
+  bool findBall = true;
   bool doFindBall();
   cv::Mat debugImg;
   /**
@@ -121,6 +131,12 @@ private:
    * distance 0 is total match, else block distance for U and V only
    * \returns d = |du| + |dv| */
   int uvDistance(cv::Vec3b pix, cv::Vec3b col);
+
+  cv::Mat hsv_colormask();
+  cv::Mat yuv_colormask();
+  float dist(float x, float y);
+  void swap(float *a, float *b);
+  void selectionSort(float x[], float y[], int size);
   
 };
 

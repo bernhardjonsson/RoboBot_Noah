@@ -11,8 +11,8 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     cout << "y : " + to_string(currentPose->y) << endl;
     cout << "h : " + to_string(currentPose->h) << endl;
 
-    float dist = computeDistance(currentPose, targetPose);
-    dist = sqrt(targetPose->x * targetPose->x + targetPose->y*targetPose->y);
+    //float dist = computeDistance(currentPose, targetPose);
+    float dist = sqrt(targetPose->x * targetPose->x + targetPose->y*targetPose->y);
 
     float alpha = atan2(targetPose->y,targetPose->x);
 
@@ -77,10 +77,17 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
 }
 void PointToPoint::goToPointWorldCoordinates(UPose* currentPose,UPose* targetPose, float speed, float acc){
     UPose targetPoseRobotFrame;
-    targetPoseRobotFrame.x = cos(targetPose->h)*targetPose->x + sin(targetPose->h)*targetPose->y - currentPose->x;
-    targetPoseRobotFrame.y = -sin(targetPose->h)*targetPose->x + cos(targetPose->h)*targetPose->y - currentPose->y;
-    targetPoseRobotFrame.h = targetPose->h - currentPose->h;
-    //goToPoint(currentPose,&targetPoseRobotFrame,speed,acc);
+    targetPoseRobotFrame.x = cos(currentPose->h)*(targetPose->x - currentPose->x) + sin(currentPose->h)*(targetPose->y - currentPose->y);
+    targetPoseRobotFrame.y = -sin(currentPose->h)*(targetPose->x - currentPose->x) + cos(currentPose->h)*(targetPose->y - currentPose->y);
+    targetPoseRobotFrame.h = atan2(targetPoseRobotFrame.y,targetPoseRobotFrame.x);
+    currentPose->x = 0;
+    currentPose->y = 0;
+    currentPose->h = 0;
+    cout << "Target pose in RobotFrame" << endl;
+    cout << "x : " + to_string(targetPoseRobotFrame.x) << endl;
+    cout << "y : " + to_string(targetPoseRobotFrame.y) << endl;
+    cout << "h : " + to_string(targetPoseRobotFrame.h) << endl;
+    goToPoint(currentPose,&targetPoseRobotFrame,speed,acc,0.3);
 }
 
 float PointToPoint::computeDistance(UPose* currentPose,UPose* targetPose){
