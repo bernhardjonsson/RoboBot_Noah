@@ -1,5 +1,6 @@
 #include "AxeMission.h"
 
+
 AxeMission::AxeMission(float vel,float acc,float distance, float irDistance,float distanceMax)
 {
     this->velocity = to_string(vel);

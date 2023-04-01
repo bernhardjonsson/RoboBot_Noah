@@ -346,6 +346,7 @@ int main(int argc, char **argv)
 {
   if (setup(argc, argv))
   { // start mission
+    
   MissionManager mission_manager;
   //mission_manager.fromStartToBalance();
   /*mission_manager.doBalance();

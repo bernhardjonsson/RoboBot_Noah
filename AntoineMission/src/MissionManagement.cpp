@@ -1,5 +1,6 @@
 #include "MissionManagement.h"
 
+
 void MissionManager::fromStartToBalance()
 {
     // Setup servo 

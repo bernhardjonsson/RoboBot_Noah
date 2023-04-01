@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
+
 project(mission)
 
 find_package(OpenCV REQUIRED )
