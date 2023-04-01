@@ -65,7 +65,7 @@ void MissionManager::doRoundabout()
 {
     float vel = 0.5;
     float acc = 0.8;
-    float distance = 0.6;
+    float distance = 0.4;
     float irDistance = 0.4;
     float distanceMax = 6.5;
     RoundaboutMission round_about_mission(vel,acc,distance,irDistance,distanceMax);
@@ -74,9 +74,9 @@ void MissionManager::doRoundabout()
 
 void MissionManager::doCarousel()
 {
-    float vel = 0.3;
+    float vel = 0.25;
     float acc = 0.8;
-    float radius = 0.375;
+    float radius = 0.35;
     CarouselMission carousel_mission(vel,acc,radius);
     carousel_mission.runMission();
 }

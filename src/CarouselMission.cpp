@@ -41,18 +41,141 @@ void CarouselMission::doCircle()
     // Adjusting angle 
     targetPose.x = 0;
     targetPose.y = 0;
-    targetPose.h = PI/2; //45 degrees
-    square_path.goToPoint(&pose,&targetPose,stof(this->velocity),stof(this->acceleration),0.3);
+    targetPose.h = 1.22; //70 degrees
+    square_path.goToPoint(&pose,&targetPose,stof(this->velocity),stof(this->acceleration),0.3); // 90 degree turn
+    
+    this->goNextGate(0);
+    this->goNextGate(0);
+    this->goLastGate(0.335);
+}
 
+    void CarouselMission::goNextGate(float radius){
+        // Go forward until encountering gate
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr="+this->radius+":turn=-360, ir1 < 0.25\n").c_str()); // turn 120
+        bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+        // Adjust
+        float distance = irsensor.ir1; 
+        printf("\r\n IR DIST : %f \r\n",irsensor.ir1);
+
+        float turn = 0.0;
+        if (distance < 0.25){
+            float K = 130;
+            turn = (distance - 0.15)*K;
+            printf("\r\n Error:%f Turn : %f \r\n",(distance - 0.15),turn);
+        }
+
+
+            // if (distance < 0.1){
+        //     turn = -25;
+        // }
+        // else if(distance < 0.25){
+        //     turn = -15;
+        // }
+        // else 
+        // {
+        //     turn = 0;
+        // }
+
+        // PointToPoint square_path;
+        // UPose targetPose;
+        // // Adjusting angle 
+        // targetPose.x = 0;
+        // targetPose.y = 0;
+        // targetPose.h = turn*PI/180;
+        // square_path.goToPoint(&pose,&targetPose,stof(this->velocity),stof(this->acceleration),0.3); // 90 degree turn
+        
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr= 0: turn="+to_string(-10)+"\n").c_str()); // adjust 5 deg
+        bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
+        bridge.tx("regbot madd vel=0.1 : dist = 0.15\n");
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+    }
+
+      void CarouselMission::goLastGate(float radius){
+        // Go forward without checking ir1
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel=0.3,tr="+to_string(radius)+":turn=-90\n").c_str()); // turn 60
+        // bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+        // Go forward until encountering gate
+        printf("\r\n LAST PART\r\n");
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr="+to_string(radius)+":turn=-120, ir1 < 0.25\n").c_str()); // turn 60
+        bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr= 0: turn="+to_string(-15)+"\n").c_str()); // adjust 5 deg
+        bridge.tx("regbot madd vel=0.25 : dist = 0.35\n");
+        bridge.tx("regbot madd vel=0 : time = 0.1\n");
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+    }
+
+    void CarouselMission::do3rd_Circle(bool last_turn)
+{
     bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd log=10:time=0.05\n");
     bridge.tx("regbot madd vel=0 : time = 0.3\n");
-    bridge.tx(("regbot madd vel="+this->velocity+",tr="+this->radius+":turn=-360\n").c_str());
-    bridge.tx("regbot madd vel=0 : time = 0.1\n");
+    bridge.tx(("regbot madd vel="+this->velocity+",tr="+this->radius+":turn=-120, ir1 < 0.25\n").c_str()); // turn 120
+    bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
+
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
+
+    if(!last_turn){
+        float distance = irsensor.ir1;
+        float turn = 0.0;
+        if (distance < 0.05){
+            turn = -20;
+        }
+        else if(distance < 0.1){
+            turn = -8;
+        }
+        else if(distance > 0.1){
+            turn = 8;
+        }
+        else if(distance > 0.15){
+            turn = 15;
+        }
+        bridge.tx("regbot mclear\n");
+        event.clearEvents();
+        bridge.tx("regbot madd log=10:time=0.05\n");
+        bridge.tx("regbot madd vel=0 : time = 0.3\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr= 0: turn="+to_string(turn)+"\n").c_str()); // adjust 5 deg
+        bridge.tx("regbot madd vel=0.1 : dist = 0.1\n");
+        bridge.tx("regbot madd vel=0 : time = 0.1\n");
+        bridge.tx("regbot start\n");
+        event.waitForEvent(0);
+    }
+    
+
+    
 }
+
+
 
 void CarouselMission::runMission()
 {
@@ -89,6 +212,7 @@ void CarouselMission::goToMiniGolf(string velocity)
     mini_golf.goToPoint(&pose,&targetPose,stof(velocity),stof(this->acceleration),0.3);
     bridge.tx("regbot mclear\n");
     event.clearEvents();
+    bridge.tx("regbot madd log=10:time=0.1");
     cmd = "regbot madd vel="+velocity+
               ",acc="+this->acceleration+
               ",edger=0,white=1:dist=0.1"+
