@@ -48,7 +48,8 @@ void run_golf_seesaw(){
 	FollowLine missionGoToBall(vel, acc, level, 0.785, rightOrLeft);
   	missionGoToBall.runMission();
 
-	capture_ball();
+	//capture_ball();
+	move_arm(1,50,125,5);
 
 
 	// Go down seesaw
@@ -100,11 +101,7 @@ void run_golf_seesaw(){
   	targetPose.h =  PI;
   	goTo2.goToPoint(&pose,&targetPose,vel,acc,0.2);
 	
-	bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=-20,vservo=125:time=5\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
+	move_arm(1,-20,125,5);
 	
 	cout << "Going up incline" << endl;
 	FollowLine mission4(vel,acc,level,2,0);
@@ -142,11 +139,7 @@ void run_golf_seesaw(){
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 	
-	bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=2\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
+	move_arm(1,1000,130,2);
 
 	cout << "Finding line" << endl;
 	// turn to line
@@ -180,8 +173,9 @@ void run_golf_seesaw(){
   	targetPose.h = 0;
 	vel = 0.15;
   	goTo3.goToPoint(&pose,&targetPose,vel,acc,0.2);
-	capture_ball();	
-    	targetPose.x = 0;
+	//capture_ball();
+	move_arm(1,50,125,5);
+    targetPose.x = 0;
   	targetPose.y = 0;
   	targetPose.h =  -1*PI;
   	goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.2);
@@ -209,11 +203,7 @@ void run_golf_seesaw(){
 	bridge.tx("regbot start\n");
 	event.waitForEvent(0);
 
-	bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=2\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
+	move_arm(1,1000,130,2);
 
 	cout << "Going to start point" << endl;
     	targetPose.x = -0.1;
@@ -256,7 +246,8 @@ void run_mini_golf(){
 					// go to golf ball
 					go_to_golfball(cur_ball.x,cur_ball.y, curr_pose);
 					// pick it up
-					capture_ball();
+					//capture_ball();
+					move_arm(1,50,125,5);
 
 					// put in hole
 					PointToPoint p2p;
@@ -337,7 +328,7 @@ void go_to_golfball(float ball_x,float ball_y, UPose* curr_pose){
 	goToTest.goToPointWorldCoordinates(&startpose,curr_pose, 0.1, 0.5);
 }
 
-void minigolf_test(){
+void minigolf_run(){
 	float vel = 0.2;
   	float acc = 0.8; 
   	int level = 12; 
@@ -351,7 +342,6 @@ void minigolf_test(){
 	curr_pose->y = 0;
 	curr_pose->h = 0;
 	
-	printf("Performing run 1");
 	vision.processImage(20);
 	
 	printf("balls arrays:\n");
@@ -378,7 +368,8 @@ void minigolf_test(){
 	cur_ball.x = vision.ball_x[0];
     cur_ball.y = vision.ball_y[0];
 	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose);
-	capture_ball();	
+	//capture_ball();	
+	move_arm(1,50,125,5);
 	printf("robot now at:\n");
 	cout << "x : " + to_string(curr_pose->x) << endl;
     cout << "y : " + to_string(curr_pose->y) << endl;
@@ -412,11 +403,7 @@ void minigolf_test(){
 
 	// release ball
 	printf("Releasing golf ball\n");
-	bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=1\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
+	move_arm(1,1000,130,1);
 	
 	curr_pose->x  = goto_pose.x;
 	curr_pose->y  = goto_pose.y;
@@ -470,7 +457,7 @@ void minigolf_test(){
 	
 	cout << "Following line " << endl;
   	FollowLine Origin(vel, acc, level, distance, rightOrLeft);
-    	Origin.runMission();
+    Origin.runMission();
   	targetPose.x = 0;
   	targetPose.y = 0;
   	targetPose.h =  -2.1;
@@ -497,3 +484,14 @@ bool InHole(Pos ball){
 	return false;
 }
 
+void move_arm(int servo, int pos, int vel, int time)
+{
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	cmd = "regbot madd servo="+to_string(servo)+",pservo="+to_string(pos)+
+				",vservo="+to_string(vel)+":time="+to_string(time)+"\n";
+	bridge.tx(cmd.c_str());
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+
+}

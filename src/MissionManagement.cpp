@@ -208,4 +208,12 @@ void MissionManager::fromRaceTrackToGoal()
     event.waitForEvent(0);
 }
 
+void MissionManager::doMiniGolf()
+{
+    for(int run=1; run<=4;run++)
+    {
+        printf("Performing run: %d of 4\n", run);
+        minigolf_run();
+    }
+}
 

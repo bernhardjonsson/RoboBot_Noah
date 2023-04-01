@@ -32,6 +32,8 @@ class MissionManager
         void doAxe();
         void doRaceTrack();
         void fromRaceTrackToGoal();
+
+        void doMiniGolf();
 };
 
 #endif
