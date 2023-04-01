@@ -232,7 +232,7 @@ void RoundaboutMission::goToCarousel()
     event.clearEvents();
     bridge.tx("regbot madd vel=0.3,tr=0:turn=-90\n");
     bridge.tx("regbot madd vel=0.0:time=0.1\n");
-    bridge.tx("regbot madd vel=0.3,acc=0.5:dist=0.8\n");
+    bridge.tx("regbot madd vel=0.3,acc=0.5:dist=0.7\n");
     bridge.tx("regbot madd vel=0.0:time=0.1\n");
     bridge.tx("regbot start\n");
     event.waitForEvent(0);

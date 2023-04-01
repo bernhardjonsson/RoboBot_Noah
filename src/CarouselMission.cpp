@@ -41,7 +41,7 @@ void CarouselMission::doCircle()
     // Adjusting angle 
     targetPose.x = 0;
     targetPose.y = 0;
-    targetPose.h = PI/2; //90 degrees
+    targetPose.h = 1.22; //70 degrees
     square_path.goToPoint(&pose,&targetPose,stof(this->velocity),stof(this->acceleration),0.3); // 90 degree turn
     
     this->goNextGate(0);
@@ -126,8 +126,8 @@ void CarouselMission::doCircle()
         event.clearEvents();
         bridge.tx("regbot madd log=10:time=0.05\n");
         bridge.tx("regbot madd vel=0 : time = 0.3\n");
-        bridge.tx(("regbot madd vel="+this->velocity+",tr= 0: turn="+to_string(-20)+"\n").c_str()); // adjust 5 deg
-        bridge.tx("regbot madd vel=0.25 : dist = 0.25\n");
+        bridge.tx(("regbot madd vel="+this->velocity+",tr= 0: turn="+to_string(-15)+"\n").c_str()); // adjust 5 deg
+        bridge.tx("regbot madd vel=0.25 : dist = 0.35\n");
         bridge.tx("regbot madd vel=0 : time = 0.1\n");
         bridge.tx("regbot start\n");
         event.waitForEvent(0);
