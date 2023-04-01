@@ -47,26 +47,10 @@ void MissionManager::goToRoundabout(){
     float vel = 0.5;
     float acc = 0.8;
     float turning_speed = 0.3;
-    goToRoundabout.goToPoint(&pose,&target_pose,vel,acc,turning_speed);
-
-    target_pose.x = 5;
-    target_pose.y = 0;
-    target_pose.h = 0;
-    goToRoundabout.goToPointUntilLineReached(&target_pose,vel,acc,turning_speed);
-
-    target_pose.x = 0.2;
-    target_pose.y = 0;
-    target_pose.h = 0;
-    goToRoundabout.goToPoint(&pose,&target_pose,vel,acc,turning_speed);
-
-    target_pose.x = 5;
-    target_pose.y = 0;
-    target_pose.h = -PI/2;
-    goToRoundabout.goToPointUntilLineReached(&target_pose,vel,acc,0.2);
-
     bool rightOrLeft = 0;
     int level = 12;
-    float distance = 11.3;
+    float distance = 11.3; // might need to change value after tests
+    
     vel = 0.4;
     FollowLine missionGoToRoundAbout(vel, acc, level, distance, rightOrLeft);
     missionGoToRoundAbout.runMission();
