@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 
     // remember to close camera
     vision.stop();
-    bridge.tx("regbot mute 1\n");
-  }
+    bridge.tx("regbot mute 1\n");  }
   return 0;
 }
+
