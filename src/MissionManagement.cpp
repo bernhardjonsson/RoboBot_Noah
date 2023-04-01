@@ -1,4 +1,5 @@
 #include "MissionManagement.h"
+#include "golf.h"
 
 void MissionManager::fromStartToBalance()
 {
@@ -27,52 +28,12 @@ void MissionManager::fromStartToBalance()
     // Comment this line if ther is no problem on the ramp (lack of scotch during test)
     missionSecondpart.runMission();
 
-    //Turn to go to balance
-    PointToPoint goToBalance;
-    UPose targetPose;
-    targetPose.x = 0;
-    targetPose.y = 0;
-    targetPose.h =  1.2217;
-    goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
 
-    // Go until golf ball mission start point
-    FollowLine missionStartBalance(vel, acc, level, 0.1, rightOrLeft);
-    missionStartBalance.runMission();
-
-    targetPose.x = 0.3;
-    targetPose.y = 0;
-    targetPose.h = 0;
-    goToBalance.goToPoint(&pose,&targetPose,vel,acc,0.3);
 }
 
 void MissionManager::doBalance()
 {
-    // Golf ball mission (Example replace with the real mission)
-    bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd servo=1,pservo=-50,vservo=125:time=10\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
-
-    //Follow line until balance point
-    bool rightOrLeft = 1;
-    float vel = 0.5;
-    float acc = 0.8;
-    int level = 12;
-    float distance = 1.1;
-    FollowLine missionEndBalance(vel, acc, level, distance, rightOrLeft);
-    missionEndBalance.runMission();
-
-    // Wait until balance is down
-    bridge.tx("regbot mclear\n");
-	event.clearEvents();
-	bridge.tx("regbot madd vel=0.0:time=5\n");
-	bridge.tx("regbot start\n");
-	event.waitForEvent(0);
-
-    distance = 3;
-    FollowLine missionEndBalance2(vel, acc, level, distance, rightOrLeft);
-    missionEndBalance2.runMission();
+    run_golf_seesaw();
 
 }
 
