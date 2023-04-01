@@ -33,9 +33,7 @@
 #include "src/uplay.h"
 #include "src/uevent.h"
 #include "src/ujoy.h"
-#include "src/PointToPoint.h"
-#include "src/golf.h"
-#include "src/FollowLine.h"
+#include "src/MissionManagement.h"
 
 // to avoid writing std:: 
 using namespace std;
@@ -86,25 +84,18 @@ int main(int argc, char **argv)
   if (setup(argc, argv))
   { // start mission
     std::cout << "# Robobot mission starting ...\n";
-    PointToPoint goToBalance;
-    UPose targetPose;
-    float vel = 0.5;
-    float acc = 0.8; 
-    int level = 12; 
-    float distance = 5; 
-    bool rightOrLeft = 0;
-    vel = 0.5;
-    distance = 10;
-    //FollowLine missionSecondpart(vel, acc, level, distance, rightOrLeft,1);
-   // missionSecondpart.runMission();     
-   // run_golf_seesaw();
-	//run_mini_golf();
-	minigolf_test();
-	vision.terminateVision();	
+    
+    MissionManager mission_manager;
+    //mission_manager.fromStartToBalance();
+    //mission_manager.doBalance();
+    //mission_manager.goToRoundabout();
+    //mission_manager.doRoundabout();
+    //mission_manager.doCarousel();
+    //fromStartToRoundabout();
+    
+
+
     std::cout << "# Robobot mission finished ...\n";
-
-
-
     // remember to close camera
     vision.stop();
     bridge.tx("regbot mute 1\n");  }

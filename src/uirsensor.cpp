@@ -1,6 +1,8 @@
 /*  
  * 
- * Copyright © 2022 DTU, Christian Andersen jcan@dtu.dk
+ * Copyright © 2022 DTU, 
+ * Author:
+ * Christian Andersen jcan@dtu.dk
  * 
  * The MIT License (MIT)  https://mit-license.org/
  * 
@@ -20,43 +22,45 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
  * THE SOFTWARE. */
 
+#include <string>
+#include <string.h>
+#include "uirsensor.h"
+#include "ubridge.h"
 
-#ifndef UCOMMENT_H
-#define UCOMMENT_H
+// create value
+UIrSensor irsensor;
 
-#include <iostream>
-#include <sys/time.h>
-#include <cstdlib>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netdb.h>
-#include <thread>
-#include <mutex>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <math.h>
 
-using namespace std;
-// forward declaration
+// Bridge class:
+void UIrSensor::setup()
+{ /// subscribe to pose information
+  bridge.tx("regbot:ir subscribe -1\n");
+}
 
-class UComment{
+
+bool UIrSensor::decode(char* msg)
+{
+  bool used = true;
+  const char * p1 = strchrnul(msg, ':');
+  if (strncmp(p1, ":ir ", 4) == 0)
+  { // decode pose message
+    // advance to first parameter
+    if (strlen(p1) > 4)
+      p1 += 4;
+    else
+      return false;
+    // get data
+    dataLock.lock();
+    // time in seconds
+    ir1 = strtof(p1, (char**)&p1); // x
+    ir2 = strtof(p1, (char**)&p1); // y
+    dataLock.unlock();
+  }
+  else
+    used = false;
   
-public:
-  /** setup and request data */
-  void setup();
-  /** decode an unpacked incoming messages
-   * \returns true if the message us used */
-  bool decode(char * msg);
+  
+  return used;
+}
 
-public:
-  // use to ensure data is consistent  
-  mutex dataLock;
-};
 
-/**
- * Make this visible to the rest of the software */
-extern UComment comment;
-
-#endif

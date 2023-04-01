@@ -54,7 +54,7 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
 
     string cmdHead = "regbot madd vel=" + to_string(turningSpeed) + ",tr=0:turn=" + to_string(radToDeg(alpha)) + "\n";
     string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + 
-                    ":dist=" + to_string(dist) + ",lv>16\n";
+                    ":dist=" + to_string(dist) + ",lv>12\n";
     cout << "Angle : " + to_string(radToDeg(alpha)) << endl;
     cout << "Distance : "+ to_string(dist) << endl;
     bridge.tx(cmdHead.c_str());

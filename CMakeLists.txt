@@ -20,10 +20,16 @@ add_executable(mission main.cpp
                             src/uplay.cpp
                             src/uevent.cpp
                             src/ujoy.cpp
+                            src/FollowLine.cpp
+                            src/uirsensor.cpp
+                            src/AxeMission.cpp
                             src/PointToPoint.cpp
-			    src/golf.cpp
-			    src/FollowLine.cpp
-			    )
+                            src/Roundabout.cpp
+                            src/CarouselMission.cpp
+                            src/RaceTrack.cpp
+                            src/MissionManagement.cpp
+                            src/golf.h
+                            )
 
 target_link_libraries(mission ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 

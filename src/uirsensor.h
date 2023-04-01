@@ -21,8 +21,8 @@
  * THE SOFTWARE. */
 
 
-#ifndef UEVENT_H
-#define UEVENT_H
+#ifndef UIRSENSOR_H
+#define UIRSENSOR_H
 
 #include <iostream>
 #include <sys/time.h>
@@ -41,7 +41,7 @@
 using namespace std;
 // forward declaration
 
-class UEvent{
+class UIrSensor{
   
 public:
   /** setup and request data */
@@ -49,31 +49,20 @@ public:
   /** decode an unpacked incoming messages
    * \returns true if the message us used */
   bool decode(char * msg);
-  /**
-   * clear all events */
-  void clearEvents();
-  /**
-   * Test if event is set 
-   * \param i is event index (0 to 33)
-   * event 33 is mission started
-   * event 0 is mission ended
-   * event 1..32 is user events
-   * \returns true if event is received */
-  bool gotEvent(int i);
-  /**
-   * wait for event or return if a mission is not running
-   * \param n is the event to wait for.
-   * \returns true if the event has arrived and false if no mission is running */
-  bool waitForEvent(int n);
 
-private:
-  static const int MAX_EVENT = 34;
-  bool events[MAX_EVENT] = {false};
+public:
+  /// ir1 -> left sensor, ir2 -> front sensor
+  float ir1,ir2;
+  
+  /// pose time from hardware (Regbot) in seconds
+  /// since start of hardware
+  double t;
+  
   mutex dataLock;
 };
 
 /**
  * Make this visible to the rest of the software */
-extern UEvent event;
+extern UIrSensor irsensor;
 
 #endif
