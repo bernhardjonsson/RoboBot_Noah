@@ -29,6 +29,7 @@ void RoundaboutMission::runMission(){
     event.waitForEvent(0);
     int waitIter = 0;
     while(irsensor.ir2 <= stof(this->irDistance) + EPSILON){
+        std::cout << "# Robobot IR"+to_string(irsensor.ir2)+"\n";
         waitIter++;
         bridge.tx("regbot mclear\n");
         event.clearEvents();
@@ -114,7 +115,8 @@ void RoundaboutMission::runMission(){
 
 void RoundaboutMission::runMissionTest()
 {
-    bridge.tx("regbot mclear\n");
+	cout << "Doing runMissionTest in Roundabout" << endl;
+	bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd log=10:time=0.05\n");
     string cmd;
@@ -125,8 +127,11 @@ void RoundaboutMission::runMissionTest()
     event.waitForEvent(0);
     int waitIter = 0;
     bool irFlag = 0;
+    cout << irsensor.ir2 << endl;
     while(irsensor.ir2 < stof(this->irDistance)){
         // Wait until there is some place to go in 
+    	//cout << irsensor.ir2 << endl;
+	//cout << irsensor.ir1 << endl;
         waitIter++;
         this->waitForRoundabout();
     }

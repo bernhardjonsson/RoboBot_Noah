@@ -34,6 +34,7 @@
 #include "src/uevent.h"
 #include "src/ujoy.h"
 #include "src/MissionManagement.h"
+#include "src/uirsensor.h"
 
 // to avoid writing std:: 
 using namespace std;
@@ -61,6 +62,7 @@ bool setup(int argc, char **argv)
     vision.setup(argc, argv);
     event.setup();
     joy.setup();
+    irsensor.setup();
 
     // move arm to initial position
     bridge.tx("regbot mclear\n");
@@ -89,10 +91,14 @@ int main(int argc, char **argv)
     //mission_manager.fromStartToBalance();
     //mission_manager.doBalance();
     //mission_manager.goToRoundabout();
+    cout << "Doing To Roundabout" << endl;
     //mission_manager.doRoundabout();
     //mission_manager.doCarousel();
-    //fromStartToRoundabout();
-    
+    //mission_manager.doMiniGolf();
+    mission_manager.fromGolfToAxe();
+    mission_manager.doAxe();
+    mission_manager.doRaceTrack();
+    mission_manager.fromRaceTrackToGoal();
 
 
     std::cout << "# Robobot mission finished ...\n";

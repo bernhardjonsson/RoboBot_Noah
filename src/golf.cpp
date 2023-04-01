@@ -486,6 +486,7 @@ bool InHole(Pos ball){
 
 void move_arm(int servo, int pos, int vel, int time)
 {
+	string cmd;
 	bridge.tx("regbot mclear\n");
 	event.clearEvents();
 	cmd = "regbot madd servo="+to_string(servo)+",pservo="+to_string(pos)+
