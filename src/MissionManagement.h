@@ -27,13 +27,6 @@ class MissionManager
         void goToRoundabout(); //Maybe split this function for the golf ball mission 
         void doRoundabout(); 
         void doCarousel();
-
-        void fromGolfToAxe();
-        void doAxe();
-        void doRaceTrack();
-        void fromRaceTrackToGoal();
-
-        void doMiniGolf();
 };
 
 #endif

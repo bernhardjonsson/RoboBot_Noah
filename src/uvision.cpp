@@ -40,7 +40,6 @@ void UVision::setup(int argc, char **argv)
   // open the default camera using default API
   // and select any API backend
   int dev = 0;
-  //printf("Setting up vision\n");
   //
   // decode any debug parameters
   // command line parameters
@@ -51,8 +50,6 @@ void UVision::setup(int argc, char **argv)
       saveImage = true;
     if (strcmp(argv[i], "ball") == 0)
       findBall = true;
-    if (strcmp(argv[i], "yolo") == 0)
-      useYolo = true;
     if (strcmp(argv[i], "aruco") == 0)
       findAruco = true;
     if (strcmp(argv[i], "show") == 0)
@@ -142,11 +139,7 @@ void UVision::loop()
   { // keep framebuffer empty
     if (useFrame)
     { // grab and decode next image
-     cap.retrieve(frame); 
-     bool frametest = cap.read(frame);
-     //printf("frametest: ");
-     //cout<<frametest;
-     //printf("\n");
+      cap.read(frame);
       // mark as available
       gotFrame = not frame.empty();
       useFrame = not gotFrame;
@@ -176,15 +169,12 @@ bool UVision::getNewestFrame()
 
 bool UVision::processImage(float seconds)
 { // process images in 'seconds' seconds
-  terminate = 0;
-	ball_found = false;
   UTime t, t2, t3, t4; // for timing
   t.now();
   int n = 0;
   int frameCnt = 0;
   float frameSampleTime = 1.5; // seconds
-  printf("seconds used: %.3f\n",seconds);
-  while (t.getTimePassed() < seconds and camIsOpen and not terminate  and n < 7) // and not terminate
+  while (t.getTimePassed() < seconds and camIsOpen and not terminate and n < 5)
   { // skip the first 20 frames to allow auto-illumination to work
     if (t4.getTimePassed() > frameSampleTime and frameSerial > 20)
     { // do every 1.5 second (or sample time)
@@ -199,7 +189,7 @@ bool UVision::processImage(float seconds)
           t3.now();
           cv::imshow("raw image", frame);
           printf("Image show call took %.3f sec\n", t3.getTimePassed());
-          cv::waitKey(7000);
+          cv::waitKey(300);
         }
         if (saveImage)
         { // save the image - with a number
@@ -212,21 +202,13 @@ bool UVision::processImage(float seconds)
         }
         if (findBall and n > 2)
         {
-          if(useYolo == true)
-          {
-	  	      cv::imwrite("raw.png", frame);
-          	system("python yolo.py");
-	         }
           t3.now();
           ballBoundingBox.clear();
-          bool ballterminate = doFindBall();
-					//terminate = false; // for longer debuging
+          terminate = doFindBall();
           printf("Find ball took %.3f sec\n", t3.getTimePassed());
           if (ballBoundingBox.size() >= 1)
           { // test if the ball is on the floor
             ballProjectionAndTest();
-			// sort distances in ascending order
-            //selectionSort(ball_x, ball_y,N_GOLF_BALLS);
           }
         }
         frameCnt++;
@@ -238,10 +220,6 @@ bool UVision::processImage(float seconds)
   }
   printf("# Ending vision loop (terminate=%d, camIsOpen=%d, n=%d\n", terminate, camIsOpen, n);
   return terminate or not camIsOpen;
-}
-
-void UVision::terminateVision(){
-	terminate = true;
 }
 
 int UVision::uvDistance(cv::Vec3b pix, cv::Vec3b col)
@@ -257,19 +235,10 @@ int UVision::uvDistance(cv::Vec3b pix, cv::Vec3b col)
   return d;
 }
 
-cv::Mat UVision::hsv_colormask()
-{  // masking function using the hsv colorspace
-  cv::Mat hsv;
-  cv::Mat mask;
-  cv::cvtColor(frame, hsv, cv::COLOR_BGR2HSV);
-  cv::Scalar low_val = cv::Scalar(2,20,20);
-  cv::Scalar high_val = cv::Scalar(100,255,255);
-  cv::inRange(frame,low_val,high_val,mask);
-  return mask;
-}
 
-cv::Mat UVision::yuv_colormask()
-{
+bool UVision::doFindBall()
+{ // process pipeline to find
+  // bounding boxes of balls with matched colour
   cv::Mat yuv;
   cv::imwrite("rgb_balls_01.png", frame);
   cv::cvtColor(frame, yuv, cv::COLOR_BGR2YUV);
@@ -296,38 +265,54 @@ cv::Mat UVision::yuv_colormask()
     }
   }
 
+  cv::Mat yuvThresh;
 
+  cv::inRange(yuv, cv::Scalar(190,96,173),cv::Scalar(250,119,131), yuvThresh);
+  cv::imwrite("threshYUV.png",yuvThresh);
+  //
+//   // threshold to BW image
+//   if (false)
+//   { // for determine a good detect threshold for the colour enhanced images
+//     source = gray1;
+//     dest.create(h,w, CV_8UC1);
+//     windowName = "process, find detect threshold";
+//     cv::namedWindow( windowName, cv::WINDOW_AUTOSIZE );
+//     slider1 = 230;
+//     cv::createTrackbar( "Threshold:", windowName, &slider1, 255, thresholdGrayDetermine);
+//     thresholdGrayDetermine(0, nullptr);
+//     cv::waitKey(0); // wait 
+//     printf("# Orange threshold ended at %d\n", slider1);
+//     // this is bor interactive use, so stop here
+//     return true;
+//   }
   //
   // do static threshold at value 230, max is 255 and mode is 3 (zero all pixels below threshold) 
   cv::Mat gray2;
-  cv::threshold(gray1, gray2, 240, 255, 3);
-  return gray2;
-
-}
-
-bool UVision::doFindBall()
-{ // process pipeline to find
-  // bounding boxes of balls with matched colour
-	cv::Mat gray2;
-	//gray2 = yuv_colormask();
-  gray2 = hsv_colormask();
+  cv::threshold(gray1, gray2, 235, 255, 3);
   //
   // remove small items with a erode/delate
   // last parameter is iterations, and could be increased
   cv::Mat gray3, gray4;
   cv::erode(gray2, gray3, cv::Mat(), cv::Point(-1,-1), 1);
   cv::dilate(gray3, gray4, cv::Mat(), cv::Point(-1,-1), 1);
-  
-  if(useYolo==true){
-  	frame = cv::imread("black_all.png");
-  	cv::cvtColor(frame, gray4, cv::COLOR_BGR2GRAY);
-  }
-  
+
+  //inrange method start---------
+  cv::Scalar H = cv::Scalar(100,160,255);
+  cv::Scalar L = cv::Scalar(5,60,170);
+  cv::Mat frame_th;
+
+  cv::inRange(frame, L,H , frame_th);
+  cv::erode(frame_th, gray3, cv::Mat(), cv::Point(-1,-1), 1);
+  cv::dilate(gray3, gray4, cv::Mat(), cv::Point(-1,-1), 1);
+
+
+  //inrange method end-----------
+
   if (showImage)
   { // show eroded/dilated image
     cv::imshow("Thresholede image", gray2);
     cv::imshow("Eroded/dilated image", gray4);
-    cv::waitKey(7000); // 2 second
+    cv::waitKey(1000); // 1 second
   }
   if (saveImage)
         { // save the image - with a number
@@ -355,7 +340,7 @@ bool UVision::doFindBall()
       cv::drawContours( col4, contours, (int)i, color, 2, cv::LINE_8, hierarchy, 0 );
     }
     imshow( "Contours", col4);
-    cv::waitKey(7000);
+    cv::waitKey(1000);
   }
   // Test for valid contours
   if (showImage)
@@ -426,29 +411,24 @@ void UVision::ballProjectionAndTest()
   bool done = ballBoundingBox.size() == 0;
   if (not done)
   {
-    detected_balls = ballBoundingBox.size();
     for (int i = 0; i < (int)ballBoundingBox.size(); i++)
     {
       printf("---\n");
       cv::Rect bb = ballBoundingBox[i];
-      float diaPix = bb.width;//std::max(bb.width, bb.height);
+      float diaPix = std::max(bb.width, bb.height);
       /// use focal length to find distance
       //       diaPix    golfDia
       //       ------ = --------
       //          f        x
       // f = focal length, x = distance to ball
-	  
-	  float focalLength_x = 772.411865234375;
-	  float focalLength_y = 777.87646484375;
-	  
-      float dist = golfBallDiameter * focalLength_x / float(diaPix);
+      float dist = golfBallDiameter * focalLength / float(diaPix);
       // the position in x (right) and y (down)
       float bbCenter[2] = {bb.x + bb.width/2.0f, bb.y + bb.height/2.0f};
       float frameCenter[2] = {frame.cols/2.0f, frame.rows/2.0f};
       // distance right of image center line - in meters
-      float x = (bbCenter[0] - frameCenter[0])/focalLength_x * dist;
+      float x = (bbCenter[0] - frameCenter[0])/focalLength * dist;
       // distance below image center line - in meters
-      float y = (bbCenter[1] - frameCenter[1])/focalLength_y * dist;
+      float y = (bbCenter[1] - frameCenter[1])/focalLength * dist;
       // make a vector of ball center with (x=forward, y=left, z=up)
       cv::Vec4f pos3dcam(dist, -x, -y, 1.0f);
       printf("# ball %d position in cam   coordinates (x,y,z)=(%.2f, %.2f, %.2f)\n", i, 
@@ -459,17 +439,11 @@ void UVision::ballProjectionAndTest()
       cv::Mat1f pos3drob = camToRobot * pos3dcam;
       printf("# ball %d position in robot coordinates (x,y,z)=(%.2f, %.2f, %.2f)\n", i, 
              pos3drob.at<float>(0), pos3drob.at<float>(1), pos3drob.at<float>(2));
-      ball_found = true;
-      ball_x[i]= pos3drob.at<float>(0);
-      ball_y[i] =  pos3drob.at<float>(1);
-      ball_z[i] =  pos3drob.at<float>(2);
       //
       if (showImage)
       { // put coordinates in debug image
         const int MSL = 100;
         char s[MSL];
-		
-		
         snprintf(s, MSL, "Ball %d at x=%.2f, y=%.2f, z=%.2f\n", i, pos3drob.at<float>(0), pos3drob.at<float>(1), pos3drob.at<float>(2));
         cv::putText(debugImg, s, cv::Point(bbCenter[0], bbCenter[1]), cv::FONT_HERSHEY_SIMPLEX, 0.4, cv::Scalar(0, 0, 156));
         //
@@ -493,39 +467,3 @@ bool UVision::doFindAruco()
   printf("# not implemented\n");
   return false;
 } 
-
-
-float UVision::dist(float x, float y){
-    return sqrt(pow(x,2) + pow(y,2));
-}
-
-void UVision::swap(float *a, float *b) {
-  int temp = *a;
-  *a = *b;
-  *b = temp;
-}
-
-void UVision::printArray(float array[], int size) {
-  for (int i = 0; i < size; i++) {
-    cout << array[i] << " ";
-  }
-  cout << endl;
-}
-
-void UVision::selectionSort(float x[], float y[], int size) {
-  for (int step = 0; step < size - 1; step++) {
-    int min_idx = step;
-    for (int i = step + 1; i < size; i++) {
-
-      // To sort in descending order, change > to < in this line.
-      // Select the minimum element in each loop.
-      if (dist(x[i],y[i]) < dist(x[min_idx],y[min_idx]))
-        min_idx = i;
-    }
-
-    // put min at the correct position
-    swap(&x[min_idx], &x[step]);
-    swap(&y[min_idx], &y[step]);
-  }
-}
-
