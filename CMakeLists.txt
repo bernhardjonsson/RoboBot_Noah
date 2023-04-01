@@ -28,7 +28,6 @@ add_executable(mission main.cpp
                             src/CarouselMission.cpp
                             src/RaceTrack.cpp
                             src/MissionManagement.cpp
-                            src/golf.h
                             )
 
 target_link_libraries(mission ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
