@@ -12,7 +12,7 @@ void RaceTrackMission::runMission()
     // Stop before turn
     bridge.tx("regbot mclear\n");
     event.clearEvents();
-    bridge.tx("regbot madd vel=0.2,acc=0.8,edger=0.3,white=1:dist=0.3,lv<16\n");
+    bridge.tx("regbot madd vel=0.3,acc=0.8,edger=0.3,white=1:dist=0.1,lv<12\n");
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
     
@@ -21,13 +21,13 @@ void RaceTrackMission::runMission()
     bridge.tx(("regbot madd vel="+this->velocity+",acc="+this->acceleration+":dist=0.2\n").c_str());
     cmd = "regbot madd vel=" + this->velocity +",acc="+this->acceleration+
               ",edger=0,white=1:dist=0.1"+
-              ",lv>16\n";
+              ",lv>12\n";
     bridge.tx(cmd.c_str());
-    cmd = "regbot madd vel=" + this->velocity + "edger=0.3,white=1:dist=1.9,lv<12\n";
+    cmd = "regbot madd vel=" + this->velocity + "edger=0.3,white=1:dist=2,lv<12\n";
     bridge.tx(cmd.c_str());
     bridge.tx("regbot madd vel=0.5,tr=0.0:turn=-87\n");
     bridge.tx(("regbot madd vel="+ this->velocity +",acc="+this->acceleration+":dist=0.1\n").c_str());
-    bridge.tx(("regbot madd vel="+this->velocity+",acc="+this->acceleration+":dist=6,lv > 16\n").c_str());
+    bridge.tx(("regbot madd vel="+this->velocity+",acc="+this->acceleration+":dist=5,lv > 12\n").c_str());
     bridge.tx("regbot madd vel=0:time=0.1\n");
     /*cmd = "regbot madd vel=0.5,edger=0,white=1:dist=2,lv<12\n";
     bridge.tx(cmd.c_str());*/
@@ -44,10 +44,10 @@ void RaceTrackMission::runMission()
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
-    bridge.tx("regbot madd vel=0.5,tr=0:turn=-90,lv>12\n");
+    bridge.tx("regbot madd vel=0.5,tr=0:turn=-90\n");
     bridge.tx("regbot madd vel=0:time=0.1\n");
-    bridge.tx(("regbot madd vel=0.3,acc="+this->acceleration+":dist=3,lv > 16\n").c_str());
-    cmd = "regbot madd vel=" + to_string(0.7) + "edger=0.3,white=1:dist=6,lv<16\n";
+    bridge.tx(("regbot madd vel=0.3,acc="+this->acceleration+":dist=3,lv > 12\n").c_str());
+    cmd = "regbot madd vel=" + to_string(0.7) + "edger=0.3,white=1:dist=6,lv<12\n";
     bridge.tx(cmd.c_str());
     bridge.tx("regbot start\n");
     event.waitForEvent(0);

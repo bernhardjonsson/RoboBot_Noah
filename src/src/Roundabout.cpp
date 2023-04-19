@@ -116,13 +116,23 @@ void RoundaboutMission::runMission(){
 void RoundaboutMission::runMissionTest()
 {
 
+    string s;
+	bridge.tx("regbot mclear\n");
+	event.clearEvents();
+	s = "regbot madd servo="+to_string(1)+",pservo="+to_string(1000)+
+				",vservo="+to_string(127)+":time="+to_string(10)+"\n";
+	bridge.tx(s.c_str());
+	bridge.tx("regbot start\n");
+	event.waitForEvent(0);
+
+
 	cout << "Doing runMissionTest in Roundabout" << endl;
 	bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd log=10:time=0.05\n");
     string cmd;
-    cmd = "regbot madd vel="+this->velocity + ",acc=" + this->acceleration 
-     + ":dist=" + this->distance + "\n";
+    cmd = "regbot madd vel="+this->velocity + ",acc=" + this->acceleration +
+        ":ir2<" + this->irDistance + + ",dist=" + this->distance + "\n";
     bridge.tx(cmd.c_str());
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
@@ -154,15 +164,15 @@ void RoundaboutMission::runMissionTest()
         this->recoverRoundabout(this->velocity,to_string(2.5));
         irFlag = (irsensor.ir2 < 0.2 + EPSILON);
     }
-    /*if (irFlag)
+    if (irFlag)
     {
         float dist_done = pose.t*std::stof(this->velocity);
         float new_dist = stod(this->distanceMax) - dist_done;
         float new_velocity = std::stof(this->velocity) - 0.1;
         this->recoverRoundabout(to_string(new_velocity), to_string(new_dist));
         this->recoverRoundabout(this->velocity,to_string(4));
-    }*/
-    //this->goToCarousel();
+    }
+    this->goToCarousel();
 }
     
 

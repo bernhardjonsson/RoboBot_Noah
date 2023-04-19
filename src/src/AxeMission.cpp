@@ -76,11 +76,11 @@ void AxeMission::goToAxe()
     utils.goToPoint(&pose,&target_pose,stof(this->velocity),stof(this->acceleration),0.3);
     bridge.tx("regbot mclear\n");
     event.clearEvents();
-    cmd = "regbot madd vel=0.2,acc="+this->acceleration+
+    cmd = "regbot madd vel=0.3,acc="+this->acceleration+
               ",edger=0,white=1:dist=0.1"+
               ",lv>12\n";
     bridge.tx(cmd.c_str());
-    cmd = "regbot madd vel=0.3,edger=0,white=1:dist=0.85,lv<12\n";
+    cmd = "regbot madd vel=0.3,edger=0,white=1:dist=0.70,lv<12\n";
     bridge.tx(cmd.c_str());
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
@@ -94,14 +94,14 @@ void AxeMission::goToRaceTrack()
     bridge.tx("regbot madd log=10:time=0.05\n");
     bridge.tx("regbot madd vel=0 : time = 0.2\n");
     cmd = "regbot madd vel="+this->velocity + ",acc=" + this->acceleration +
-                +":dist=0.7\n";
+                +":dist=0.4\n";
     bridge.tx(cmd.c_str());
 
     // Ensure to not stop on the metal line -> reach it
-    cmd = "regbot madd vel=0.3,acc=" + this->acceleration +
+    cmd = "regbot madd vel=0.4,acc=" + this->acceleration +
                 +"lv>12\n";
     bridge.tx(cmd.c_str());
-    cmd = "regbot madd vel=0.25,acc=" + this->acceleration +
+    cmd = "regbot madd vel=0.4,acc=" + this->acceleration +
                 +":dist=1,lv>12\n";
     bridge.tx(cmd.c_str());
     bridge.tx("regbot madd vel=0 : time = 0.1\n");

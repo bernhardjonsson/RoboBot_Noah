@@ -31,8 +31,6 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     bridge.tx("regbot madd vel=0:time=0.05\n");
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
-    cout << cmdHead.c_str() << endl;
-    cout << cmdDist.c_str() << endl;
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
@@ -44,7 +42,6 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     bridge.tx("regbot start\n");
     cout << "Mission should start!" << endl;
     event.waitForEvent(0);
-    cout << cmdHead.c_str() << endl;
 }
 
 void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, float acc, float turningSpeed){
@@ -66,8 +63,6 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
     bridge.tx("regbot madd vel=0:time=0.05\n");
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
-    cout << cmdHead.c_str() << endl;
-    cout << cmdDist.c_str() << endl;
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
@@ -79,7 +74,6 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
     bridge.tx("regbot start\n");
     cout << "Mission should start!" << endl;
     event.waitForEvent(0);
-    cout << cmdHead.c_str() << endl;
 }
 void PointToPoint::goToPointWorldCoordinates(UPose* currentPose,UPose* targetPose, float speed, float acc){
     UPose targetPoseRobotFrame;

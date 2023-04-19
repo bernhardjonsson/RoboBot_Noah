@@ -38,7 +38,7 @@ void FollowLine::runMission()
     if(rightOrLeft){
         cmd = "vel="+this->velocity+
                     ",acc="+this->acceleration+
-                    ",edger=0.3,white=1:dist=0.1"+
+                    ",edger=0,white=1:dist=0.1"+
                     ",lv>"+this->level;
         stopCondition = "edger=0,white=1:dist="+this->distance+
                                 ",lv<"+this->level;         
@@ -61,8 +61,5 @@ void FollowLine::runMission()
     bridge.tx(stopConditionBridge.c_str());
     bridge.tx("regbot start\n");
     event.waitForEvent(0);
-    cout << cmdBridge.c_str() << endl;
-    cout << stopConditionBridge.c_str() << endl;
- 
 }
 

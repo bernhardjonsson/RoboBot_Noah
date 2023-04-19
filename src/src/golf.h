@@ -2,7 +2,7 @@
 #define GOLF_H
 
 #define MINIGOLF_HOLE_X 1.2
-#define MINIGOLF_HOLE_Y -0.0
+#define MINIGOLF_HOLE_Y -0.2
 #define ARM_LENGTH 0.35
 
 #include "uvision.h"

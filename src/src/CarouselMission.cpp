@@ -41,12 +41,12 @@ void CarouselMission::doCircle()
     // Adjusting angle 
     targetPose.x = 0;
     targetPose.y = 0;
-    targetPose.h = 80*PI/180; //70 degrees
+    targetPose.h = 1.22; //70 degrees
     square_path.goToPoint(&pose,&targetPose,stof(this->velocity),stof(this->acceleration),0.3); // 90 degree turn
     
     this->goNextGate(0);
     this->goNextGate(0);
-    this->goLastGate(0.275);
+    this->goLastGate(0.335);
 }
 
     void CarouselMission::goNextGate(float radius){
@@ -117,7 +117,7 @@ void CarouselMission::doCircle()
         event.clearEvents();
         bridge.tx("regbot madd log=10:time=0.05\n");
         bridge.tx("regbot madd vel=0 : time = 0.3\n");
-        bridge.tx(("regbot madd vel="+this->velocity+",tr="+to_string(radius)+":turn=-120, ir1 < 0.15\n").c_str()); // turn 60
+        bridge.tx(("regbot madd vel="+this->velocity+",tr="+to_string(radius)+":turn=-120, ir1 < 0.25\n").c_str()); // turn 60
         bridge.tx("regbot madd vel=0: time = 0.1\n"); // stop the robot
         bridge.tx("regbot start\n");
         event.waitForEvent(0);
