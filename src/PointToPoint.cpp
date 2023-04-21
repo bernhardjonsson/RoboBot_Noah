@@ -21,8 +21,7 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     bridge.tx("regbot madd log=10:time=0.05\n");
 
     string cmdHead = "regbot madd vel=" + to_string(turningSpeed) + ",tr=0:turn=" + to_string(radToDeg(alpha)) + "\n";
-    string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + 
-                    ":dist=" + to_string(dist) + "\n";
+    string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + ":dist=" + to_string(dist) + "\n";
     cout << "Angle : " + to_string(radToDeg(alpha)) << endl;
     cout << "Distance : "+ to_string(dist) << endl;
     bridge.tx(cmdHead.c_str());
@@ -33,6 +32,8 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     event.waitForEvent(0);
     cout << cmdHead.c_str() << endl;
     cout << cmdDist.c_str() << endl;
+    //cout << "WAITING FOR KEYPRESS remember save log" << endl;
+    //getchar();
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
@@ -44,6 +45,10 @@ void PointToPoint::goToPoint(UPose* currentPose,UPose* targetPose, float speed, 
     bridge.tx("regbot start\n");
     cout << "Mission should start!" << endl;
     event.waitForEvent(0);
+    //cout << "WAITING FOR KEYPRESS remember save log" << endl;
+    //getchar();
+
+    
     cout << cmdHead.c_str() << endl;
 }
 
@@ -56,8 +61,7 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
     bridge.tx("regbot madd log=10:time=0.05\n");
 
     string cmdHead = "regbot madd vel=" + to_string(turningSpeed) + ",tr=0:turn=" + to_string(radToDeg(alpha)) + "\n";
-    string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + 
-                    ":dist=" + to_string(dist) + ",lv>16\n";
+    string cmdDist = "regbot madd vel=" + to_string(speed) + ",acc=" + to_string(acc) + ":dist=" + to_string(dist) + ",lv>16\n";
     cout << "Angle : " + to_string(radToDeg(alpha)) << endl;
     cout << "Distance : "+ to_string(dist) << endl;
     bridge.tx(cmdHead.c_str());
@@ -68,6 +72,8 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
     event.waitForEvent(0);
     cout << cmdHead.c_str() << endl;
     cout << cmdDist.c_str() << endl;
+    //cout << "WAITING FOR KEYPRESS remember save log" << endl;
+    //getchar();
 
     bridge.tx("regbot mclear\n");
     event.clearEvents();
@@ -80,6 +86,9 @@ void PointToPoint::goToPointUntilLineReached(UPose* targetPose, float speed, flo
     cout << "Mission should start!" << endl;
     event.waitForEvent(0);
     cout << cmdHead.c_str() << endl;
+    //cout << "WAITING FOR KEYPRESS remember save log" << endl;
+    //getchar();
+
 }
 void PointToPoint::goToPointWorldCoordinates(UPose* currentPose,UPose* targetPose, float speed, float acc){
     UPose targetPoseRobotFrame;

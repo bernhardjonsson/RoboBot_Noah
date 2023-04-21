@@ -56,7 +56,7 @@ public:
   bool decode(char * msg);
   /**
    * Stream to screen - if any screen is available */
-  bool processImage(float seconds);
+  bool processImage(float seconds, int nr);
   /**
    * Close camera */
   void stop();
@@ -116,7 +116,7 @@ private:
   //
   //
   bool findBall = true;
-  bool doFindBall();
+  bool doFindBall(int nr);
   cv::Mat debugImg;
   /**
    * Bounding boc for found balls */

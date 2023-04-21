@@ -174,7 +174,7 @@ bool UVision::getNewestFrame()
   return gotFrame;
 }
 
-bool UVision::processImage(float seconds)
+bool UVision::processImage(float seconds, int nr)
 { // process images in 'seconds' seconds
   terminate = 0;
 	ball_found = false;
@@ -214,12 +214,18 @@ bool UVision::processImage(float seconds)
         {
           if(useYolo == true)
           {
-	  	      cv::imwrite("raw.png", frame);
-          	system("python yolo.py");
+		if(nr==1){
+	  	      cv::imwrite("raw1.png", frame);
+          	      system("python yolo.py 1");
+                }
+               else if(nr==2){
+		 cv::imwrite("raw2.png", frame);
+                  system("python yolo.py 2");
+               }
 	         }
           t3.now();
           ballBoundingBox.clear();
-          bool ballterminate = doFindBall();
+          bool ballterminate = doFindBall(nr);
 					//terminate = false; // for longer debuging
           printf("Find ball took %.3f sec\n", t3.getTimePassed());
           if (ballBoundingBox.size() >= 1)
@@ -305,7 +311,7 @@ cv::Mat UVision::yuv_colormask()
 
 }
 
-bool UVision::doFindBall()
+bool UVision::doFindBall(int nr)
 { // process pipeline to find
   // bounding boxes of balls with matched colour
 	cv::Mat gray2;
@@ -319,7 +325,13 @@ bool UVision::doFindBall()
   cv::dilate(gray3, gray4, cv::Mat(), cv::Point(-1,-1), 1);
   
   if(useYolo==true){
-  	frame = cv::imread("black_all.png");
+        if(nr==1){
+  	    frame = cv::imread("black_all1.png");
+        }
+        else if(nr==2){
+            frame = cv::imread("black_all2.png");
+        }
+
   	cv::cvtColor(frame, gray4, cv::COLOR_BGR2GRAY);
   }
   
