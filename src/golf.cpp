@@ -289,7 +289,7 @@ void run_mini_golf(){
 	for(int run=1; run<=1;run++)
 	{
 		printf("Performing run: %d of 4\n", run);
-		vision.processImage(20,1);
+		vision.processImage(20);
 		if(vision.ball_found == true){
 			for(int i=0; i<6; i++)
 			{
@@ -406,7 +406,7 @@ void minigolf_run(){
 
 	logfile << to_string(curr_pose->x) + "\t" + to_string(curr_pose->y) + "\t" +to_string(curr_pose->h) + "\n"; 
 	
-	vision.processImage(15,1);
+	vision.processImage(15);
 	
 	printf("balls arrays:\n");
 	vision.printArray(vision.ball_x,6);
@@ -433,7 +433,7 @@ void minigolf_run(){
 	logfile << to_string(curr_pose->x) + "\t" + to_string(curr_pose->y) + "\t" +to_string(curr_pose->h) + "\n";
 
 
-	vision.processImage(15,2);
+	vision.processImage(15);
 	cur_ball.x = vision.ball_x[0];
         cur_ball.y = vision.ball_y[0];
 	go_to_golfball(cur_ball.x, cur_ball.y, curr_pose);

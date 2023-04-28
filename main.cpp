@@ -36,6 +36,7 @@
 #include "src/MissionManagement.h"
 #include "src/uirsensor.h"
 #include "src/golf.h"
+
 // to avoid writing std:: 
 using namespace std;
 
@@ -65,12 +66,11 @@ bool setup(int argc, char **argv)
     irsensor.setup();
 
     // move arm to initial position
-    bridge.tx("regbot mclear\n");
+   bridge.tx("regbot mclear\n");
     event.clearEvents();
     bridge.tx("regbot madd servo=1,pservo=1000,vservo=0:time=1\n");
     bridge.tx("regbot start\n");
     event.waitForEvent(0);    
-
     printf("# Setup finished OK\n");
   }
   else
@@ -85,23 +85,38 @@ int main(int argc, char **argv)
 {
   if (setup(argc, argv))
   { // start mission
-    std::cout << "# Robobot mission starting ...\n";    
+    std::cout << "# Robobot mission starting ...\n";
+    
     MissionManager mission_manager;
-    // mission_manager.fromStartToBalance();
-    //mission_manager.doBalance();
+   // cout << "Going to balance" << endl;
+    //mission_manager.fromStartToBalance();
+    //cout << "Doing golf on seesaw" << endl;
+//   mission_manager.ToBalanceShort();
+  // mission_manager.doBalance();
+    //cout << "Going to Roundabout" << endl;
     //mission_manager.goToRoundabout();
     //cout << "Doing To Roundabout" << endl;
-    //mission_manager.doRoundabout();
-    //mission_manager.doCarousel();
-    //fromStartToRoundabout();
-    minigolf_run();
+     //mission_manager.doRoundabout();
+     //cout << "Doing Carousel" << endl;
+     //mission_manager.doCarousel();
+     //mission_manager.fromRoundaboutToMiniGolf();
+    // cout << "Doing Minigolf" << endl;
+    // // mission_manager.GoToMiniGolf();
+   // mission_manager.doMiniGolf();
+    // cout << "Going to Axe" << endl;
+    //mission_manager.fromGolfToAxe();
+    // cout << "Doing Axe" << endl;
+    //mission_manager.doAxe();
+    // cout << "Doing Race track" << endl;
+    //mission_manager.doRaceTrack();
+    // cout << "Going to goal" << endl;
+    //mission_manager.fromRaceTrackToGoal();
+  minigolf_run();
 
-
-    //std::cout << "# Robobot mission finished ...\n";
+    std::cout << "# Robobot mission finished ...\n";
     // remember to close camera
     vision.stop();
-    //bridge.tx("regbot mute 1\n");  
-    }
+    bridge.tx("regbot mute 1\n");  }
   return 0;
 }
 

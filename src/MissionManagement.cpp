@@ -3,15 +3,14 @@
 
 void MissionManager::fromStartToBalance()
 {
-    // Setup servo     
-    std::cout << "# HOLA ...\n";
+    // Setup servo 
     bridge.tx("regbot mclear\n");
-    std::cout << "# HOLA ...\n";
 	event.clearEvents();
 	bridge.tx("regbot madd servo=1,pservo=1000,vservo=130:time=1\n");
     bridge.tx("regbot madd vel=0.3:dist=0.3\n");
 	bridge.tx("regbot start\n");
-    event.waitForEvent(0);   
+    event.waitForEvent(0);
+
     // First follow line
     float vel = 0.25;
     float acc = 0.8; 
@@ -34,7 +33,7 @@ void MissionManager::fromStartToBalance()
     bridge.tx("regbot mclear\n");
 	event.clearEvents();
     bridge.tx("regbot madd vel=0.3:dist=0.05\n");
-	bridge.tx("regbot start\n"); 
+	bridge.tx("regbot start\n");
     event.waitForEvent(0);
 
 
